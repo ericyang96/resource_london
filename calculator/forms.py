@@ -179,7 +179,7 @@ class CalculatorForm(forms.Form):
                     Field('number_of_estates', template="number_of_estates.html")
                 ),
                 Column(
-                    Field('households_per_estate', template="help_text\households_per_estate.html")
+                    Field('households_per_estate', template="households_per_estate.html")
                 ),
                 Column(
                     Field('binstores_per_block', template="binstores_per_block.html")
@@ -201,22 +201,22 @@ class CalculatorForm(forms.Form):
             HTML("<h4>Collection Assumptions</h4>"),
             Row(
                 Column(
-                    Field('capacity_per_bin', template="help_text\capacity_per_bin.html", css_class='form-group col-md-4 mb-0',)
+                    Field('capacity_per_bin', template="capacity_per_bin.html", css_class='form-group col-md-4 mb-0',)
                 ),
                 Column(
-                    Field('preFRP_collections_per_week', template="help_text\preFRP_collections_per_week.html",css_class='form-group col-md-4 mb-0'),
+                    Field('preFRP_collections_per_week', template="preFRP_collections_per_week.html",css_class='form-group col-md-4 mb-0'),
                 ),
                 Column(
-                    Field('FRP_collections_per_week', template="help_text\FRP_collections_per_week.html", css_class='form-group col-md-4 mb-0')
+                    Field('FRP_collections_per_week', template="FRP_collections_per_week.html", css_class='form-group col-md-4 mb-0')
                     ),
                 css_class='form-row'
             ),
             Row(
                 Column(
-                    Field('material_collections', template="help_text\material_collections.html", css_class='form-group col-md-4 mb-0')
+                    Field('material_collections', template="material_collections.html", css_class='form-group col-md-4 mb-0')
                 ),
                 Column(
-                    Field('preFRP_recycling_bins_per_binstore', template="help_text\preFRP_recycling_bins_per_binstore.html", css_class='form-group col-md-4 mb-0')
+                    Field('preFRP_recycling_bins_per_binstore', template="preFRP_recycling_bins_per_binstore.html", css_class='form-group col-md-4 mb-0')
                 ),
                 Column(
                     Field('residual_waste_disposal_method', template="residual_waste_disposal_method.html", css_class='form-group col-md-10 mb-0')
