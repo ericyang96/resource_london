@@ -33,11 +33,6 @@
               </select>
             </div>
             <div class="col-4">
-              <div class="col-md-2">
-                <a class="btn btn-secondary" role="button" title="Logout" href="{% url 'logout'%}">Logout</a>
-              </div>
-            </div>
-            <div class="col-4">
               {% if download_form %}
                 <form action="{% url 'download_data' %}"  method="POST">
                     {% csrf_token %}
@@ -47,6 +42,11 @@
                     </p>
                 </form>
               {% endif %}
+            </div>
+            <div class="col-4">
+              <div class="col-md-2">
+                <a class="btn btn-secondary" role="button" title="Logout" href="{% url 'logout'%}">Logout</a>
+              </div>
             </div>
           </div>
           <div class="red box">
