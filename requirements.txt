@@ -1,4 +1,3 @@
-.git
 calculator
 resource_london
 db.sqlite3
