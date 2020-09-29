@@ -32,7 +32,11 @@
                   <option value="maroon">Detailed Benefits</option>
               </select>
             </div>
-            <div class="col-4"></div>
+            <div class="col-4">
+              <div class="col-md-2">
+                <a class="btn btn-lg btn-secondary" role="button" title="Logout" href="{% url 'logout'%}">Logout</a>
+              </div>
+            </div>
             <div class="col-4">
               {% if download_form %}
                 <form action="{% url 'download_data' %}"  method="POST">
