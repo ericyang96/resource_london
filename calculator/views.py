@@ -3,10 +3,6 @@ import pandas as pd
 from .forms import CalculatorForm, DownloadForm
 from django.http import HttpResponse
 import csv
-import os, tempfile, zipfile
-from wsgiref.util import FileWrapper
-from django.conf import settings
-import mimetypes
 
 #https://stackoverflow.com/questions/4142151/how-to-import-the-class-within-the-same-directory-or-sub-directory
 #https://stackoverflow.com/questions/45710477/importing-variables-from-another-file-in-python
