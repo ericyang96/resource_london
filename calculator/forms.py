@@ -159,42 +159,42 @@ class CalculatorForm(forms.Form):
                     Field('setup_cost_scenario', template="setup_cost_scenario.html")
                 ),
                 Column(
-                    Field('ongoing_cost_scenario', template="help_text\ongoing_cost_scenario.html")
+                    Field('ongoing_cost_scenario', template="ongoing_cost_scenario.html")
                 ),
                 css_class='form-row'
             ),
             HTML("<h4>Benefit Scenarios</h4>"),
             Row(
                 Column(
-                    Field('diverted_waste_benefit_scenario', template="help_text\diverted_waste_benefit_scenario.html")
+                    Field('diverted_waste_benefit_scenario', template="diverted_waste_benefit_scenario.html")
                 ),
                 Column(
-                    Field('reduced_contamination_benefit_scenario', template="help_text/reduced_contamination_benefit_scenario.html")
+                    Field('reduced_contamination_benefit_scenario', template="reduced_contamination_benefit_scenario.html")
                 ),
                 css_class='form-row'
             ),
             HTML("<h4>Estate Characteristics</h4>"),
             Row(
                 Column(
-                    Field('number_of_estates', template="help_text/number_of_estates.html")
+                    Field('number_of_estates', template="number_of_estates.html")
                 ),
                 Column(
                     Field('households_per_estate', template="help_text\households_per_estate.html")
                 ),
                 Column(
-                    Field('binstores_per_block', template="help_text/binstores_per_block.html")
+                    Field('binstores_per_block', template="binstores_per_block.html")
                 ),
                 css_class='form-row'
             ),
             Row(
                 Column(
-                    Field('blocks_per_estate', template="help_text/blocks_per_estate.html")
+                    Field('blocks_per_estate', template="blocks_per_estate.html")
                 ),
                 Column(
-                    Field('recycling_bins_per_binstore', template="help_text/recycling_bins_per_binstore.html")
+                    Field('recycling_bins_per_binstore', template="recycling_bins_per_binstore.html")
                 ),
                 Column(
-                    Field('rubbish_bins_per_binstore', template="help_text/rubbish_bins_per_binstore.html")
+                    Field('rubbish_bins_per_binstore', template="rubbish_bins_per_binstore.html")
                 ),
                 css_class='form-row'
             ),
@@ -219,32 +219,32 @@ class CalculatorForm(forms.Form):
                     Field('preFRP_recycling_bins_per_binstore', template="help_text\preFRP_recycling_bins_per_binstore.html", css_class='form-group col-md-4 mb-0')
                 ),
                 Column(
-                    Field('residual_waste_disposal_method', template="help_text/residual_waste_disposal_method.html", css_class='form-group col-md-10 mb-0')
+                    Field('residual_waste_disposal_method', template="residual_waste_disposal_method.html", css_class='form-group col-md-10 mb-0')
                 ),
                 css_class='form-row'
             ),
             HTML("<h4>Cost Allocations</h4>"),
             Row(
                 Column(
-                    Field('bin_purchase_maintenance_agent', template="help_text/bin_purchase_maintenance_agent.html"),
+                    Field('bin_purchase_maintenance_agent', template="bin_purchase_maintenance_agent.html"),
                 ),
                 Column(
-                    Field('bin_rental_housing_provider', template="help_text/bin_rental_housing_provider.html")
+                    Field('bin_rental_housing_provider', template="bin_rental_housing_provider.html")
                     ),
                 Column(
-                    Field('bin_rental_agent', template="help_text/bin_rental_agent.html")
+                    Field('bin_rental_agent', template="bin_rental_agent.html")
                 ),
                 css_class='form-row'
             ),
             Row(
                 Column(
-                    Field('binstore_refurb_agent', template="help_text/binstore_refurb_agent.html")
+                    Field('binstore_refurb_agent', template="binstore_refurb_agent.html")
                 ),
                 Column(
-                    Field('stickers_posters_signage_agent', template="help_text/stickers_posters_signage_agent.html")
+                    Field('stickers_posters_signage_agent', template="stickers_posters_signage_agent.html")
                 ),
                 Column(
-                    Field('stickers_posters_signage_design_agent', template="help_text/stickers_posters_signage_design_agent.html")
+                    Field('stickers_posters_signage_design_agent', template="stickers_posters_signage_design_agent.html")
                 ),
                 css_class='form-row'
             ),
@@ -257,25 +257,25 @@ class CalculatorForm(forms.Form):
             HTML("<h4>Optional Assumptions</h4>"),
             Row(
                 Column(
-                    Field('preFRP_dry_recycling_volume', template="help_text/preFRP_dry_recycling_volume.html")
+                    Field('preFRP_dry_recycling_volume', template="preFRP_dry_recycling_volume.html")
                 ),
                 Column(
-                    Field('preFRP_waste_volume', template="help_text/preFRP_waste_volume.html")
+                    Field('preFRP_waste_volume', template="preFRP_waste_volume.html")
                 ),
                 Column(
-                    Field('dry_recycling_per_household', template="help_text/dry_recycling_per_household.html")
+                    Field('dry_recycling_per_household', template="dry_recycling_per_household.html")
                 ),
                 css_class='form-row'
             ),
             Row(
                 Column(
-                    Field('residual_waste_disposal_costs', template="help_text/residual_waste_disposal_costs.html")
+                    Field('residual_waste_disposal_costs', template="residual_waste_disposal_costs.html")
                 ),
                 Column(
-                    Field('recycling_waste_disposal_costs', template="help_text/recycling_waste_disposal_costs.html")
+                    Field('recycling_waste_disposal_costs', template="recycling_waste_disposal_costs.html")
                 ),
                 Column(
-                    Field('contamination_waste_disposal_costs', template="help_text/contamination_waste_disposal_costs.html")
+                    Field('contamination_waste_disposal_costs', template="contamination_waste_disposal_costs.html")
                 ),
                 css_class='form-row'
             ),
