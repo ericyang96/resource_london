@@ -26,7 +26,9 @@ SECRET_KEY = '!mgpe-r*#gbcv*q1)897$%119a1h2+kamom-%0(c$4rkw)5sut'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'flats-recycling-package.herokuapp.com'
+]
 
 
 # Application definition
