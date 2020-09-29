@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% load static %}
+    {% load humanize %}
+    {% load customfilters %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/93d1fb5e3e.js" crossorigin="anonymous"></script>
+    <script src="{% static 'calculator/app.js' %}"></script>
+    <title>FRP Cost-Benefit Calculator</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-10">
+          <div class="page-header">
+            <img class="img-fluid margin-bottom:50px" alt="Responsive image" src='/static/calculator/resource_london_logo.png'>
+            <h2 class="mt-2 mb-2">Flats Recycling Program Cost-Benefit Calculator</h2>
+            <hr class="mt-0 mb-4">
+          </div>
+          <div class="row">
+            <div class="col-4">
+              <select>
+                  <option value="red">Overall Costs/Benefits</option>
+                  <option value="green">Key Performance Indicators</option>
+                  <option value="blue">Detailed Costs</option>
+                  <option value="maroon">Detailed Benefits</option>
+              </select>
+            </div>
+            <div class="col-4"></div>
+            <div class="col-4">
+              {% if download_form %}
+                <form action="{% url 'download_data' %}"  method="POST">
+                    {% csrf_token %}
+                    {{ download_form.as_p }}
+                    <p>
+                        <input type="submit" class="btn btn-primary" name="submit" value="Download model outputs" />
+                    </p>
+                </form>
+              {% endif %}
+            </div>
+          </div>
+          <div class="red box">
+            <h4 class="mt-3">Overall net benefits/costs</h4>
+            <table class="table table-bordered table-hover table-responsive-sm">
+              <thead>
+                <th>Total net benefit (London borough)</th>
+                <th>Total net benefit (Housing provider)</th>
+                <th>Total net benefit (society)</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ total_netbenefit_london_borough|currency }}</td>
+                  <td>{{ total_netbenefit_housing_provider|currency }}</td>
+                  <td>{{ total_netbenefit_society|currency }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <h4 class="mt-3">Net benefits/costs by year</h4>
+            <table class="table table-bordered table-hover table-responsive-sm">
+              <thead>
+                <tr>
+                  <th scope="col">Year</th>
+                  <th scope="col">London Borough net benefit</th>
+                  <th scope="col">Housing provider net benefit</th>
+                  <th scope="col">Society net benefit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Year 0</th>
+                  <td>{{year0_netbenefit_london_borough|currency }}</td>
+                  <td>{{year0_netbenefit_housing_provider|currency }}</td>
+                  <td>{{year0_social_benefit|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 1</th>
+                  <td>{{year1_netbenefit_london_borough|currency }}</td>
+                  <td>{{year1_netbenefit_housing_provider|currency }}</td>
+                  <td>{{year1_social_benefit|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 2</th>
+                  <td>{{year1_netbenefit_london_borough|currency }}</td>
+                  <td>{{year1_netbenefit_housing_provider|currency }}</td>
+                  <td>{{year1_social_benefit|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 3</th>
+                  <td>{{year1_netbenefit_london_borough|currency }}</td>
+                  <td>{{year1_netbenefit_housing_provider|currency }}</td>
+                  <td>{{year1_social_benefit|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 4</th>
+                  <td>{{year1_netbenefit_london_borough|currency }}</td>
+                  <td>{{year1_netbenefit_housing_provider|currency }}</td>
+                  <td>{{year1_social_benefit|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 5</th>
+                  <td>{{year5_netbenefit_london_borough|currency }}</td>
+                  <td>{{year5_netbenefit_housing_provider|currency }}</td>
+                  <td>{{year5_social_benefit|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 6</th>
+                  <td>{{year1_netbenefit_london_borough|currency }}</td>
+                  <td>{{year1_netbenefit_housing_provider|currency }}</td>
+                  <td>{{year1_social_benefit|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 7</th>
+                  <td>{{year1_netbenefit_london_borough|currency }}</td>
+                  <td>{{year1_netbenefit_housing_provider|currency }}</td>
+                  <td>{{year1_social_benefit|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 8</th>
+                  <td>{{year8_netbenefit_london_borough|currency }}</td>
+                  <td>{{year8_netbenefit_housing_provider|currency }}</td>
+                  <td>{{year8_social_benefit|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 9</th>
+                  <td>{{year1_netbenefit_london_borough|currency }}</td>
+                  <td>{{year1_netbenefit_housing_provider|currency }}</td>
+                  <td>{{year1_social_benefit|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 10</th>
+                  <td>{{year5_netbenefit_london_borough|currency }}</td>
+                  <td>{{year5_netbenefit_housing_provider|currency }}</td>
+                  <td>{{year5_social_benefit|currency }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="green box">
+            <h4 class="mt-3">Key performance indicators</h4>
+            <table class="table table-bordered table-hover table-responsive-sm">
+              <thead>
+                <tr>
+                  <th>Indicator</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Pre-intervention household dry recycling rate (%)</td>
+                  <td>{{ preFRP_household_dry_recycling_rate|decimal }}</td>
+                </tr>
+                <tr>
+                  <td>Post-intervention household dry recycling rate (%)</td>
+                  <td>{{ FRP_household_dry_recycling_rate|decimal }}</td>
+                </tr>
+                <tr>
+                  <td>Dry recycling rate uplift (pp)</th>
+                  <td>{{ dry_recycling_uplift|decimal }}</td>
+                </tr>
+                <tr>
+                  <td>Uplift in dry recycled waste volumes in treated flats from FRP (%)</td>
+                  <td>{{recyclable_waste_uplift_parameter|decimal }}</td>
+                </tr>
+                <tr>
+                  <td>Reduction in contamination rate of dry recycling in treated flats (pp)</td>
+                  <td>{{contamination_reduction_parameter|decimal }}</td>
+                </tr>
+                <tr>
+                  <td>CO2 emissions abated (tons/year)</td>
+                  <td>{{CO2_abated|floatformat:0|intcomma}}</td>
+                </tr>
+                <tr>
+                  <td>Dry recycling bin capacity per household in treated flats (litres/hh/pw)</td>
+                  <td>{{dry_recycling_bin_capacity_treated_flats|floatformat:0|intcomma}}</td>
+                </tr>
+                <tr>
+                  <td>Additional London Borough net benefit per household of FRP (£ average/year)</td>
+                  <td>{{ borough_additional_net_benefit_per_householdyear|no_decimal }}</td>
+                </tr>
+                <tr>
+                  <td>Additional housing provider net benefit per household of FRP (£ average/year)</td>
+                  <td>{{ housing_provider_additional_net_benefit_per_householdyear|no_decimal }}</td>
+                </tr>
+                <tr>
+                  <td>Net benefit to society per household from FRP (£/year)</td>
+                  <td>{{ society_net_benefit_per_householdyear|no_decimal }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="blue box">
+            <h4>Total setup costs</h4>
+            <table class="table table-bordered table-hover table-responsive-sm">
+              <thead>
+                <tr>
+                  <th scope="col">London Borough</th>
+                  <th scope="col">Housing provider</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{total_borough_setup_costs|currency }}</td>
+                  <td>{{total_housing_provider_setup_costs|currency }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <h4 class="mt-3">Ongoing costs by year</h4>
+            <table class="table table-bordered table-hover table-responsive-sm">
+              <thead>
+                <tr>
+                  <th scope="col">Year</th>
+                  <th scope="col">London Borough</th>
+                  <th scope="col">Housing provider</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Year 0</th>
+                  <td>{{year0_total_ongoing_costs_london_borough|currency }}</td>
+                  <td>{{year0_total_ongoing_costs_housing_provider|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 1</th>
+                  <td>{{year1_total_ongoing_costs_london_borough|currency }}</td>
+                  <td>{{year1_total_ongoing_costs_housing_provider|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 2</th>
+                  <td>{{year1_total_ongoing_costs_london_borough|currency }}</td>
+                  <td>{{year1_total_ongoing_costs_housing_provider|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 3</th>
+                  <td>{{year1_total_ongoing_costs_london_borough|currency }}</td>
+                  <td>{{year1_total_ongoing_costs_housing_provider|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 4</th>
+                  <td>{{year1_total_ongoing_costs_london_borough|currency }}</td>
+                  <td>{{year1_total_ongoing_costs_housing_provider|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 5</th>
+                  <td>{{year5_total_ongoing_costs_london_borough|currency }}</td>
+                  <td>{{year5_total_ongoing_costs_housing_provider|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 6</th>
+                  <td>{{year1_total_ongoing_costs_london_borough|currency }}</td>
+                  <td>{{year1_total_ongoing_costs_housing_provider|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 7</th>
+                  <td>{{year1_total_ongoing_costs_london_borough|currency }}</td>
+                  <td>{{year1_total_ongoing_costs_housing_provider|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 8</th>
+                  <td>{{year8_total_ongoing_costs_london_borough|currency }}</td>
+                  <td>{{year8_total_ongoing_costs_housing_provider|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 9</th>
+                  <td>{{year1_total_ongoing_costs_london_borough|currency }}</td>
+                  <td>{{year1_total_ongoing_costs_housing_provider|currency }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Year 10</th>
+                  <td>{{year5_total_ongoing_costs_london_borough|currency }}</td>
+                  <td>{{year5_total_ongoing_costs_housing_provider|currency }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="maroon box">
+            <h4 class="mt-3">Detailed benefits</h4>
+            <table class="table table-bordered table-hover table-responsive-sm">
+              <thead>
+                <tr>
+                  <th>Indicator</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Social cost of carbon diverted</td>
+                  <td>{{scc_diverted|currency }}</td>
+                </tr>
+                <tr>
+                  <td>Cost reduction of waste disposal (reduced gate fees and landfill tax) (£)</td>
+                  <td>{{additional_waste_disposal_cost|currency }}</td>
+                </tr>
+                <tr>
+                  <td>Reduced residual waste collection costs (£)</td>
+                  <td>{{ reduced_residual_waste_collection_costs|currency }}</td>
+                </tr>
+                <tr>
+                  <td>Value of material diverted from landfill/efw/contamination (£)</td>
+                  <td>{{total_cost_diverted_material|currency }}</td>
+                </tr>
+                <tr>
+                  <td>Value of improved resident experience (£)</td>
+                  <td>{{value_improvement_resident_total|currency }}</td>
+                </tr>
+                <tr>
+                  <td>Total social benefit of FRP (£)</td>
+                  <td>{{total_benefit|currency }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
