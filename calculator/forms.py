@@ -156,7 +156,7 @@ class CalculatorForm(forms.Form):
             HTML("<h4>Cost Scenarios</h4>"),
             Row(
                 Column(
-                    Field('setup_cost_scenario', template="help_text\setup_cost_scenario.html")
+                    Field('setup_cost_scenario', template="setup_cost_scenario.html")
                 ),
                 Column(
                     Field('ongoing_cost_scenario', template="help_text\ongoing_cost_scenario.html")

@@ -1,0 +1,21 @@
+{% load crispy_forms_field %}
+    <{% if tag %}{{ tag }}{% else %}div{% endif %} id="div_{{ field.auto_id }}" {% if not field|is_checkbox %}class="form-group{% else %}class="checkbox{% endif %}{% if wrapper_class %} {{ wrapper_class }}{% endif %}{% if form_show_errors%}{% if field.errors %} has-error{% endif %}{% endif %}{% if field.css_classes %} {{ field.css_classes }}{% endif %}">
+    {% if field.label and not field|is_checkbox and form_show_labels %}
+        <label for="{{ field.id_for_label }}" class="control-label {{ label_class }}{% if field.field.required %} requiredField{% endif %}">
+            {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
+        </label>
+    {% endif %}
+    <i class="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="top" title="Five ongoing cost scenarios can be selected by users based on how difficult/easy users perceive it is to maintain the relevant estates. Ongoing costs included recurring costs associated with implementing the Flats Recycling Package in designated estates, including:
+    <ul>
+      <li>Additional costs of waste collection</li>
+      <li>Regular cleaning of bin areas</li>
+      <li>Monthly inspections</li>
+      <li>Refurbishing bins</li>
+      <li>Replacing signage/communcations</li>
+    </ul>
+    "></i>
+    <div class="controls {{ field_class }}">
+        {% crispy_field field %}
+        {% include 'bootstrap3/layout/help_text_and_errors.html' %}
+    </div>
+</{% if tag %}{{ tag }}{% else %}div{% endif %}>
