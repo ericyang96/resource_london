@@ -1,0 +1,1 @@
+web: gunicorn resource_london.wsgi
