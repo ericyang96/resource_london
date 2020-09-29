@@ -63,7 +63,7 @@ ROOT_URLCONF = 'resource_london.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR /'templates'],
+        'DIRS': ['calculator/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
