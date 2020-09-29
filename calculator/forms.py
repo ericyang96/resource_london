@@ -133,9 +133,9 @@ class CalculatorForm(forms.Form):
     additional_collections_agent = forms.CharField(label='Additional recycling waste collections', widget=forms.Select(choices=agent_choices))
 
     # Optional assumptions
-    preFRP_dry_recycling_volume = forms.IntegerField(label='Dry recycling (pre-FRP)',required=False)
-    preFRP_waste_volume = forms.IntegerField(label='Total waste (pre-FRP)',required=False)
-    dry_recycling_per_household = forms.IntegerField(label='Dry recycling per household',required=False)
+    preFRP_dry_recycling_volume = forms.IntegerField(label='Dry recycling volume (pre-FRP)',required=False,help_text='Enter a value in tonnes')
+    preFRP_waste_volume = forms.IntegerField(label='Total waste volume (pre-FRP)',required=False,help_text='Enter a value in tonnes')
+    dry_recycling_per_household = forms.IntegerField(label='Dry recycling volume per household',required=False,help_text='Enter a value in tonnes')
     residual_waste_disposal_costs = forms.IntegerField(label='Borough residual waste disposal costs',required=False)
     recycling_waste_disposal_costs = forms.IntegerField(label='Borough recycling waste disposal costs',required=False)
     contamination_waste_disposal_costs = forms.IntegerField(label='Borough contamination waste disposal costs',required=False)
@@ -279,11 +279,6 @@ class CalculatorForm(forms.Form):
                 ),
                 css_class='form-row'
             ),
-            Row(
-
-                css_class='form-row'
-            ),
-            'include_discount',
             Submit('submit', 'Submit')
         )
 

@@ -27,7 +27,8 @@ SECRET_KEY = '!mgpe-r*#gbcv*q1)897$%119a1h2+kamom-%0(c$4rkw)5sut'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'flats-recycling-package.herokuapp.com'
+    'flats-recycling-package.herokuapp.com',
+    'localhost'
 ]
 
 
@@ -49,8 +50,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = '/calculator'
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

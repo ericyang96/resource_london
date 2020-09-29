@@ -20,7 +20,7 @@
         <div class="col-md-10">
           <div class="page-header">
             <img class="img-fluid margin-bottom:50px" alt="Responsive image" src='/static/calculator/resource_london_logo.png'>
-            <h2 class="mt-2 mb-2">Flats Recycling Program Cost-Benefit Calculator</h2>
+            <h2 class="mt-2 mb-2">Flats Recycling Package Cost-Benefit Calculator</h2>
             <hr class="mt-0 mb-4">
           </div>
           <div class="row">
@@ -152,43 +152,73 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>Pre-intervention household dry recycling rate (%)</td>
+                  <td>
+                    Pre-intervention household dry recycling rate (%)
+                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated dry recycling rate before implementation of the Flats Recycling Package for either the London Borough or for the treated estates if volumes user inputted."></i>
+                  </td>
                   <td>{{ preFRP_household_dry_recycling_rate|decimal }}</td>
                 </tr>
                 <tr>
-                  <td>Post-intervention household dry recycling rate (%)</td>
+                  <td>
+                    Post-intervention household dry recycling rate (%)
+                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated dry recycling rate after implementation of the Flats Recycling Package for either the London Borough or for the treated estates if volumes user inputted."></i>
+                  </td>
                   <td>{{ FRP_household_dry_recycling_rate|decimal }}</td>
                 </tr>
                 <tr>
-                  <td>Dry recycling rate uplift (pp)</th>
+                  <td>
+                    Dry recycling rate uplift (pp)
+                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated uplift (in percentage points) in the dry recycling rate as a result of implementation the Flats Recycling Package."></i>
+                  </td>
                   <td>{{ dry_recycling_uplift|decimal }}</td>
                 </tr>
                 <tr>
-                  <td>Uplift in dry recycled waste volumes in treated flats from FRP (%)</td>
+                  <td>
+                    Uplift in dry recycled waste volumes in treated flats from FRP (%)
+                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated percentage increase in the volume of household waste sent to dry recycling as a result of implementing the Flats Recycling Package (driven by benefit scenario selected)"></i>
+                  </td>
                   <td>{{recyclable_waste_uplift_parameter|decimal }}</td>
                 </tr>
                 <tr>
-                  <td>Reduction in contamination rate of dry recycling in treated flats (pp)</td>
+                  <td>
+                    Reduction in contamination rate of dry recycling in treated flats (pp)
+                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated percentage point reduction in the contamination rate of household dry recycling volumes as a result of implementing the Flats Recycling Package (driven by benefit scenario selected)"></i>
+                  </td>
                   <td>{{contamination_reduction_parameter|decimal }}</td>
                 </tr>
                 <tr>
-                  <td>CO2 emissions abated (tons/year)</td>
+                  <td>
+                    CO2 emissions abated (tons/year)
+                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated annual CO2e emissions abated (tonnes/yr) as a result of waste being diverted from alternative waste disposal methods."></i>
+                  </td>
                   <td>{{CO2_abated|floatformat:0|intcomma}}</td>
                 </tr>
                 <tr>
-                  <td>Dry recycling bin capacity per household in treated flats (litres/hh/pw)</td>
+                  <td>
+                    Dry recycling bin capacity per household in treated flats (litres/hh/pw)
+                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Flats Recycling Package includes a recommended minimum dry recycling bin capacity of 60 litres/hh/week. If this output is below then consider increasing the frequency of collections or number of bins."></i>
+                  </td>
                   <td>{{dry_recycling_bin_capacity_treated_flats|floatformat:0|intcomma}}</td>
                 </tr>
                 <tr>
-                  <td>Additional London Borough net benefit per household of FRP (£ average/year)</td>
+                  <td>
+                    Additional London Borough net benefit per household of FRP (£ average/year)
+                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated annual net benefit/(cost) per household for London Borough of implementing the Flats Recycling Packages on the treated estates."></i>
+                  </td>
                   <td>{{ borough_additional_net_benefit_per_householdyear|no_decimal }}</td>
                 </tr>
                 <tr>
-                  <td>Additional housing provider net benefit per household of FRP (£ average/year)</td>
+                  <td>
+                    Additional housing provider net benefit per household of FRP (£ average/year)
+                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated annual net benefit/(cost) per household for housing provider of implementing the Flats Recycling Packages on the treated estates."></i>
+                  </td>
                   <td>{{ housing_provider_additional_net_benefit_per_householdyear|no_decimal }}</td>
                 </tr>
                 <tr>
-                  <td>Net benefit to society per household from FRP (£/year)</td>
+                  <td>
+                    Net benefit to society per household from FRP (£/year)
+                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated annual net benefit/(cost) to society per household from implementing the Flats Recycling Packages on the treated estates."></i>
+                  </td>
                   <td>{{ society_net_benefit_per_householdyear|no_decimal }}</td>
                 </tr>
               </tbody>
@@ -289,33 +319,55 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>Social cost of carbon diverted</td>
+                  <td>
+                    Social cost of carbon diverted
+                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated monetary value of CO2e emissions abated (tonnes/yr) as a result of waste being diverted from alternative waste disposal methods. Emission reductions are valued at a social cost of carbon of £69.30/tonne."></i>
+                  </td>
                   <td>{{scc_diverted|currency }}</td>
                 </tr>
                 <tr>
-                  <td>Cost reduction of waste disposal (reduced gate fees and landfill tax) (£)</td>
+                  <td>
+                    Cost reduction of waste disposal (reduced gate fees and landfill tax) (£)
+                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated reduction in waste disposal costs (including gate fees, landfill and other taxes) for London Boroughs as a result of waste being diverted from alternative methods to recycling."></i>
+                  </td>
                   <td>{{additional_waste_disposal_cost|currency }}</td>
                 </tr>
                 <tr>
-                  <td>Reduced residual waste collection costs (£)</td>
+                  <td>
+                    Reduced residual waste collection costs (£)
+                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated monetary benefit of reduced residual waste collection frequency following the implementation of the Flats Recycling Package."></i>
+                  </td>
                   <td>{{ reduced_residual_waste_collection_costs|currency }}</td>
                 </tr>
                 <tr>
-                  <td>Value of material diverted from landfill/efw/contamination (£)</td>
+                  <td>
+                    Value of material diverted from landfill/efw/contamination (£)
+                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated value of additional materials collected through increased recycled waste volumes. This benefit is assumed to accrue to Boroughs if multisource collections are selected."></i>
+                  </td>
                   <td>{{total_cost_diverted_material|currency }}</td>
                 </tr>
                 <tr>
-                  <td>Value of improved resident experience (£)</td>
+                  <td>
+                    Value of improved resident experience (£)
+                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated monetary value to residents of improved recycling service and estate cleanliness (improved visual and reduced odours) as a result of implementing the Flats Recycling Package."></i>
+                  </td>
                   <td>{{value_improvement_resident_total|currency }}</td>
                 </tr>
                 <tr>
-                  <td>Total social benefit of FRP (£)</td>
+                  <td>
+                    Total social benefit of FRP (£)
+                  </td>
                   <td>{{total_benefit|currency }}</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
+        <footer class="page-footer font-small special-color-dark pt-4">
+          <div class="footer-copyright text-center py-3">
+            © 2020 Resource London. Developed in partnership with Alma Economics
+          </div>
+        </footer>
       </div>
     </div>
 

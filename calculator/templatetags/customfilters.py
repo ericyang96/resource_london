@@ -8,7 +8,10 @@ register = template.Library()
 def currency(pounds):
     pounds = int(math.ceil(pounds / 100.0)) * 100
     #dollars = round(float(dollars), 2)
-    return "£%s" % (intcomma(int(pounds)))
+    if pounds >= 0:
+        return "£%s" % (intcomma(int(pounds)))
+    else:
+        return "-£%s" % (intcomma(abs(pounds)))
 
 # Round all non-integer values to 1 decimal place
 def decimal(value):
