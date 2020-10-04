@@ -2,6 +2,7 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Field, Layout, Submit, Row, Column, HTML, Reset, Button
 from crispy_forms.bootstrap import Accordion, AccordionGroup
+from django.contrib.auth.forms import UserCreationForm
 
 setup_cost_choices= [
     ('high', 'High'),
@@ -106,19 +107,19 @@ class CalculatorForm(forms.Form):
     reduced_contamination_benefit_scenario = forms.CharField(label='Reduction in contamination rate scenario', widget=forms.Select(choices=reduced_contamination_choices))
 
     # Estate assumptions
-    number_of_estates = forms.IntegerField(label='Number of estates')
-    households_per_estate = forms.IntegerField(label='Households per estate')
-    binstores_per_block = forms.IntegerField(label='Bin stores per block')
-    blocks_per_estate = forms.IntegerField(label='Blocks per estate')
-    recycling_bins_per_binstore = forms.IntegerField(label='Recycling bins per bin store')
-    rubbish_bins_per_binstore = forms.IntegerField(label='Rubbish bins per bin store')
+    number_of_estates = forms.IntegerField(label='Number of estates',min_value=1)
+    households_per_estate = forms.IntegerField(label='Households per estate',min_value=1)
+    binstores_per_block = forms.IntegerField(label='Bin stores per block',min_value=0)
+    blocks_per_estate = forms.IntegerField(label='Blocks per estate',min_value=1)
+    recycling_bins_per_binstore = forms.IntegerField(label='Recycling bins per bin store',min_value=0)
+    rubbish_bins_per_binstore = forms.IntegerField(label='Rubbish bins per bin store',min_value=0)
 
     # Collection assumptions
     capacity_per_bin = forms.IntegerField(label='Recycling capacity per bin',widget=forms.Select(choices=bin_capacity_choices))
-    preFRP_collections_per_week = forms.IntegerField(label='Collections per week (pre-FRP)')
-    FRP_collections_per_week = forms.IntegerField(label='Collections per week (FRP)')
-    material_collections = forms.IntegerField(label='Material collections')
-    preFRP_recycling_bins_per_binstore = forms.IntegerField(label='Recycling bins per binstore (pre-FRP)')
+    preFRP_collections_per_week = forms.IntegerField(label='Collections per week (pre-FRP)',min_value=1)
+    FRP_collections_per_week = forms.IntegerField(label='Collections per week (FRP)',min_value=1)
+    material_collections = forms.IntegerField(label='Material collections',min_value=1)
+    preFRP_recycling_bins_per_binstore = forms.IntegerField(label='Recycling bins per binstore (pre-FRP)',min_value=0)
     residual_waste_disposal_method = forms.CharField(label='Residual waste disposal method', widget=forms.Select(choices=residual_waste_disposal_choices))
 
     # Cost allocations
@@ -133,14 +134,12 @@ class CalculatorForm(forms.Form):
     additional_collections_agent = forms.CharField(label='Additional recycling waste collections', widget=forms.Select(choices=agent_choices))
 
     # Optional assumptions
-    preFRP_dry_recycling_volume = forms.IntegerField(label='Dry recycling volume (pre-FRP)',required=False,help_text='Enter a value in tonnes')
-    preFRP_waste_volume = forms.IntegerField(label='Total waste volume (pre-FRP)',required=False,help_text='Enter a value in tonnes')
-    dry_recycling_per_household = forms.IntegerField(label='Dry recycling volume per household',required=False,help_text='Enter a value in tonnes')
-    residual_waste_disposal_costs = forms.IntegerField(label='Borough residual waste disposal costs',required=False)
-    recycling_waste_disposal_costs = forms.IntegerField(label='Borough recycling waste disposal costs',required=False)
-    contamination_waste_disposal_costs = forms.IntegerField(label='Borough contamination waste disposal costs',required=False)
-
-    include_discount = forms.BooleanField(label='Apply discount factor?',required=False)
+    preFRP_dry_recycling_volume = forms.IntegerField(label='Dry recycling volume (pre-FRP)',required=False,help_text='Enter a value in tonnes',min_value=0)
+    preFRP_waste_volume = forms.IntegerField(label='Total waste volume (pre-FRP)',required=False,help_text='Enter a value in tonnes',min_value=0)
+    dry_recycling_per_household = forms.IntegerField(label='Dry recycling volume per household',required=False,help_text='Enter a value in tonnes',min_value=0)
+    residual_waste_disposal_costs = forms.IntegerField(label='Borough residual waste disposal costs',required=False,min_value=0)
+    recycling_waste_disposal_costs = forms.IntegerField(label='Borough recycling waste disposal costs',required=False,min_value=0)
+    contamination_waste_disposal_costs = forms.IntegerField(label='Borough contamination waste disposal costs',required=False,min_value=0)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

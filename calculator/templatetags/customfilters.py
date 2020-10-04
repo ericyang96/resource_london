@@ -6,7 +6,7 @@ register = template.Library()
 
 # Round all currency values to the nearest hundred
 def currency(pounds):
-    pounds = int(math.ceil(pounds / 100.0)) * 100
+    pounds = int(round(pounds / 100.0)) * 100
     #dollars = round(float(dollars), 2)
     if pounds >= 0:
         return "£%s" % (intcomma(int(pounds)))
@@ -19,7 +19,7 @@ def decimal(value):
     return "%s%%" % (intcomma(int(value)))
 
 def no_decimal(value):
-    no_decimal_value = int(math.ceil(value))
+    no_decimal_value = int(round(value))
     if no_decimal_value >= 0:
         return "£%s" % (intcomma(int(no_decimal_value)))
     else:

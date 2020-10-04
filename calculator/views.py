@@ -1,23 +1,14 @@
-from django.shortcuts import render
 import pandas as pd
-from .forms import CalculatorForm, DownloadForm
-from django.http import HttpResponse
 import csv
 import os
+import xlsxwriter
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
+from .forms import CalculatorForm, DownloadForm
+from django.http import HttpResponse
 
-#https://stackoverflow.com/questions/4142151/how-to-import-the-class-within-the-same-directory-or-sub-directory
-#https://stackoverflow.com/questions/45710477/importing-variables-from-another-file-in-python
-#https://www.imagescape.com/blog/2019/10/09/multipage-forms-django/
-#https://docs.djangoproject.com/en/dev/howto/static-files/
-#https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
-#http://jsfiddle.net/TLBvx/252/
-#https://stackoverflow.com/questions/6164507/change-the-content-of-a-div-based-on-selection-from-dropdown-menu
-#https://django-crispy-forms.readthedocs.io/en/latest/layouts.html
-#https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html
-#https://data-flair.training/blogs/python-project-calorie-calculator-django/
-#https://learndjango.com/tutorials/django-login-and-logout-tutorial
-#https://django-formtools.readthedocs.io/en/latest/wizard.html
-# https://herewecode.io/blog/a-beginners-guide-to-git-how-to-start-and-create-your-first-repository/
 
 df = pd.read_excel('Borough data.xlsx',sheet_name = 'London Boroughs specific',index_col=1)
 df = df.drop(columns=['ECODE','Check','Unnamed: 22'])
@@ -194,6 +185,21 @@ waste = {
     'cardboard':{'share':0.17,'price':60},
     'plastics':{'share':0.076,'price':115},
 }
+
+
+def register(request):
+    if request.method == 'POST':
+        f = UserCreationForm(request.POST)
+        if f.is_valid():
+            f.save()
+            messages.success(request, 'Account created successfully')
+            return redirect('../accounts/login')
+
+    else:
+        f = UserCreationForm()
+
+    return render(request, 'register.html', {'form': f})
+
 
 def calculatorform(request):
 	#if form is submitted
@@ -914,49 +920,172 @@ def download_data(request):
 	housing_provider_additional_net_benefit_per_householdyear = total_netbenefit_housing_provider/(total_households * 10)
 	society_net_benefit_per_householdyear = total_netbenefit_society/(total_households * 10)
 
-	attachment = 'model_outputs.csv'
-	response = HttpResponse(content_type='text/csv')
+	attachment = 'model_outputs'
+	response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 	response['Content-Disposition'] = 'attachment;filename="{}"'.format(attachment)
 
-	writer = csv.writer(response)
-	writer.writerow(['Key performance indicators'])
-	writer.writerow(['Pre-intervention household dry recycling rate (%)',preFRP_household_dry_recycling_rate])
-	writer.writerow(['Post-intervention household dry recycling rate (%)',FRP_household_dry_recycling_rate])
-	writer.writerow(['Dry recycling rate uplift (pp)',dry_recycling_uplift])
-	writer.writerow(['Uplift in dry recycled waste volumes in treated flats from FRP (%)',recyclable_waste_uplift_parameter])
-	writer.writerow(['Reduction in contamination rate of dry recycling in treated flats (pp)',contamination_reduction_parameter])
-	writer.writerow(['CO2 emissions abated (tons/year)',CO2_abated])
-	writer.writerow(['Dry recycling bin capacity per household in treated flats (litres/hh/pw)',dry_recycling_bin_capacity_treated_flats])
-	writer.writerow(['Additional London Borough net benefit per household of FRP (£ average/year)',borough_additional_net_benefit_per_householdyear])
-	writer.writerow(['Additional housing provider net benefit per household of FRP (£ average/year)',housing_provider_additional_net_benefit_per_householdyear])
-	writer.writerow(['Net benefit to society per household from FRP (£/year)',society_net_benefit_per_householdyear])
-	writer.writerow([])
-	writer.writerow(['Total setup costs'])
-	writer.writerow(['Total setup costs (London Borough)',total_borough_setup_costs])
-	writer.writerow(['Total setup costs (Housing provider)',total_housing_provider_setup_costs])
-	writer.writerow(['Ongoing costs by year'])
-	writer.writerow(['Value','Year 0','Year 1','Year 2','Year 3','Year 4','Year 5','Year 6','Year 7','Year 8','Year 9','Year 10'])
-	writer.writerow(['Ongoing costs (London Borough)',year0_total_ongoing_costs_london_borough,year1_total_ongoing_costs_london_borough,year1_total_ongoing_costs_london_borough,year1_total_ongoing_costs_london_borough,year1_total_ongoing_costs_london_borough,year5_total_ongoing_costs_london_borough,year1_total_ongoing_costs_london_borough,year1_total_ongoing_costs_london_borough,year8_total_ongoing_costs_london_borough,year1_total_ongoing_costs_london_borough,year5_total_ongoing_costs_london_borough,])
-	writer.writerow([])
-	writer.writerow(['Ongoing costs (Housing provider)',year0_total_ongoing_costs_housing_provider,year1_total_ongoing_costs_housing_provider,year1_total_ongoing_costs_housing_provider,year1_total_ongoing_costs_housing_provider,year1_total_ongoing_costs_housing_provider,year5_total_ongoing_costs_housing_provider,year1_total_ongoing_costs_housing_provider,year1_total_ongoing_costs_housing_provider,year8_total_ongoing_costs_housing_provider,year1_total_ongoing_costs_housing_provider,year5_total_ongoing_costs_housing_provider,])
-	writer.writerow([])
-	writer.writerow(['Benefits'])
-	writer.writerow(['Social cost of carbon diverted',scc_diverted])
-	writer.writerow(['Cost reduction of waste disposal (reduced gate fees and landfill tax) (£)',additional_waste_disposal_cost])
-	writer.writerow(['Reduced residual waste collection costs (£)',reduced_residual_waste_collection_costs])
-	writer.writerow(['Value of material diverted from landfill/efw/contamination (£)',total_cost_diverted_material])
-	writer.writerow(['Value of improved resident experience (£)',value_improvement_resident_total])
-	writer.writerow(['Total social benefit of FRP (£)',total_benefit])
-	writer.writerow([])
-	writer.writerow(['Overall net benefits/costs'])
-	writer.writerow(['Total net benefit (London Borough)',total_netbenefit_london_borough])
-	writer.writerow(['Total net benefit (Housing provider)',total_netbenefit_housing_provider])
-	writer.writerow(['Total net benefit (society)',total_netbenefit_society])
-	writer.writerow([])
-	writer.writerow(['Net benefits/costs by year'])
-	writer.writerow(['Value','Year 0','Year 1','Year 2','Year 3','Year 4','Year 5','Year 6','Year 7','Year 8','Year 9','Year 10'])
-	writer.writerow(['Net benefit (London Borough)',year0_netbenefit_london_borough,year1_netbenefit_london_borough,year1_netbenefit_london_borough,year1_netbenefit_london_borough,year1_netbenefit_london_borough,year5_netbenefit_london_borough,year1_netbenefit_london_borough,year1_netbenefit_london_borough,year8_netbenefit_london_borough,year1_netbenefit_london_borough,year5_netbenefit_london_borough])
-	writer.writerow(['Net benefit (Housing provider)',year0_netbenefit_housing_provider,year1_netbenefit_housing_provider,year1_netbenefit_housing_provider,year1_netbenefit_housing_provider,year1_netbenefit_housing_provider,year5_netbenefit_housing_provider,year1_netbenefit_housing_provider,year1_netbenefit_housing_provider,year8_netbenefit_housing_provider,year1_netbenefit_housing_provider,year5_netbenefit_housing_provider])
-	writer.writerow(['Net benefit (society)',year0_social_benefit,year1_social_benefit,year1_social_benefit,year1_social_benefit,year1_social_benefit,year5_social_benefit,year1_social_benefit,year1_social_benefit,year8_social_benefit,year1_social_benefit,year5_social_benefit])
+	workbook = xlsxwriter.Workbook(response)
+	pct = workbook.add_format({'num_format': '0.0%'})
+	money = workbook.add_format({'num_format': '£0'})
+	bold = workbook.add_format({'bold': True})
+
+	# Key Performance Indicators tab
+	worksheet1 = workbook.add_worksheet('Key Performance Indicators')
+	worksheet1.write('A1', 'Output', bold)
+	worksheet1.write('B1', 'Value', bold)
+
+	key_performance_indicators_pct = (
+	    ['Pre-intervention household dry recycling rate (%)', round(preFRP_household_dry_recycling_rate,3)],
+	  	['Post-intervention household dry recycling rate (%)',round(FRP_household_dry_recycling_rate,3)],
+	  	['Dry recycling rate uplift (pp)',round(dry_recycling_uplift,3)],
+	  	['Uplift in dry recycled waste volumes in treated flats from FRP (%)',round(recyclable_waste_uplift_parameter,3)],
+	)
+
+	row = 1
+	col = 0
+	output_col_width = 10
+	for item, cost in (key_performance_indicators_pct):
+		worksheet1.write(row, col,item,pct)
+		worksheet1.write(row, col + 1, cost,pct)
+		if len(item) > output_col_width:
+			output_col_width = len(item)
+		row += 1
+
+	key_performance_indicators_numeric = (
+		['Reduction in contamination rate of dry recycling in treated flats (pp)',round(contamination_reduction_parameter,1)],
+		['CO2 emissions abated (tons/year)',round(CO2_abated,1)],
+		['Dry recycling bin capacity per household in treated flats (litres/hh/pw)',round(dry_recycling_bin_capacity_treated_flats,1)],
+	)
+	for item, cost in (key_performance_indicators_numeric):
+		worksheet1.write(row, col,item,pct)
+		worksheet1.write(row, col + 1, cost)
+		if len(item) > output_col_width:
+			output_col_width = len(item)
+		row += 1
+
+	key_performance_indicators_money = (
+		['Additional London Borough net benefit per household of FRP (£ average/year)',round(borough_additional_net_benefit_per_householdyear)],
+		['Additional housing provider net benefit per household of FRP (£ average/year)',round(housing_provider_additional_net_benefit_per_householdyear)],
+		['Net benefit to society per household from FRP (£/year)',round(society_net_benefit_per_householdyear)],
+	)
+	for item, cost in (key_performance_indicators_money):
+		worksheet1.write(row, col,item,pct)
+		worksheet1.write(row, col + 1, cost,money)
+		if len(item) > output_col_width:
+			output_col_width = len(item)
+		row += 1
+
+	worksheet1.set_column(0, 0, output_col_width)
+
+	# Detailed costs
+	worksheet2 = workbook.add_worksheet('Detailed Costs')
+	worksheet2.write('A1', 'Output', bold)
+	worksheet2.write('B1', 'London Borough', bold)
+	worksheet2.write('C1', 'Housing provider', bold)
+
+	detailed_costs = (
+	    ['Total setup costs', round(total_borough_setup_costs/100)*100, round(total_housing_provider_setup_costs/100)*100],
+		['Year 0 ongoing costs',round(year0_total_ongoing_costs_london_borough/100)*100,round(year0_total_ongoing_costs_housing_provider/100)*100],
+		['Year 1 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100],
+		['Year 2 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100],
+		['Year 3 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100],
+		['Year 4 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100],
+		['Year 5 ongoing costs',round(year5_total_ongoing_costs_london_borough/100)*100,round(year5_total_ongoing_costs_housing_provider/100)*100],
+		['Year 6 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100],
+		['Year 7 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100],
+		['Year 8 ongoing costs',round(year8_total_ongoing_costs_london_borough/100)*100,round(year8_total_ongoing_costs_housing_provider/100)*100],
+		['Year 9 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100],
+		['Year 10 ongoing costs',round(year5_total_ongoing_costs_london_borough/100)*100,round(year5_total_ongoing_costs_housing_provider/100)*100],
+	)
+
+	row = 1
+	col = 0
+	output_col_width = 10
+	for item, lb, hp in (detailed_costs):
+		worksheet2.write(row, col, item)
+		worksheet2.write(row, col + 1, lb, money)
+		worksheet2.write(row, col + 2, hp, money)
+		if len(item) > output_col_width:
+			output_col_width = len(item)
+		row += 1
+
+	worksheet2.set_column(0, 0, output_col_width)
+	worksheet2.set_column(1, 0, len('London Borough'))
+	worksheet2.set_column(2, 0, len('Housing provider'))
+
+	# Detailed benefits
+	worksheet3 = workbook.add_worksheet('Detailed Benefits')
+	worksheet3.write('A1', 'Output', bold)
+	worksheet3.write('B1', 'Value', bold)
+
+	detailed_benefits = (
+		['Social cost of carbon diverted',round(scc_diverted/100)*100],
+		['Cost reduction of waste disposal (reduced gate fees and landfill tax)',round(additional_waste_disposal_cost/100)*100],
+		['Reduced residual waste collection costs',round(reduced_residual_waste_collection_costs/100)*100],
+		['Value of material diverted from landfill/efw/contamination',round(total_cost_diverted_material/100)*100],
+		['Value of improved resident experience',round(value_improvement_resident_total/100)*100],
+		['Total social benefit of FRP',round(total_benefit/100)*100],
+	)
+
+	row = 1
+	col = 0
+	for item, cost in (detailed_benefits):
+		worksheet3.write(row, col,item,pct)
+		worksheet3.write(row, col + 1, cost,money)
+		if len(item) > output_col_width:
+			output_col_width = len(item)
+		row += 1
+
+	worksheet3.set_column(0, 0, output_col_width)
+
+	# Overall net costs/benefits
+	worksheet4 = workbook.add_worksheet('Overall Net Costs and Benefits')
+	worksheet4.write('A1', 'Output', bold)
+	worksheet4.write('B1', 'London Borough', bold)
+	worksheet4.write('C1', 'Housing provider', bold)
+	worksheet4.write('D1', 'Society', bold)
+
+	net_costs = (
+	    ['Total net benefit', round(total_netbenefit_london_borough/100)*100, round(total_netbenefit_housing_provider/100)*100, round(total_netbenefit_society/100)*100],
+		['Year 0 net benefit',round(year0_netbenefit_london_borough/100)*100,round(year0_netbenefit_housing_provider/100)*100,round(year0_social_benefit/100)*100],
+		['Year 1 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
+		['Year 2 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
+		['Year 3 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
+		['Year 4 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
+		['Year 5 net benefit',round(year5_netbenefit_london_borough/100)*100,round(year5_netbenefit_housing_provider/100)*100,round(year5_social_benefit/100)*100],
+		['Year 6 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
+		['Year 7 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
+		['Year 8 net benefit',round(year8_netbenefit_london_borough/100)*100,round(year8_netbenefit_housing_provider/100)*100,round(year8_social_benefit/100)*100],
+		['Year 9 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
+		['Year 10 net benefit',round(year5_netbenefit_london_borough/100)*100,round(year5_netbenefit_housing_provider/100)*100,round(year5_social_benefit/100)*100],
+	)
+
+	row = 1
+	col = 0
+	output_col_width = 10
+	lb_col_width = 10
+	hp_col_width = 10
+	soc_col_width = 10
+	for item, lb, hp, soc in (net_costs):
+		worksheet4.write(row, col, item)
+		worksheet4.write(row, col + 1, lb, money)
+		worksheet4.write(row, col + 2, hp, money)
+		worksheet4.write(row, col + 3, soc, money)
+		if len(item) > output_col_width:
+			output_col_width = len(item)
+		if len(str(lb)) > lb_col_width:
+			lb_col_width = len(str(lb))
+		if len(str(hp)) > hp_col_width:
+			hp_col_width = len(str(hp))
+		if len(str(soc)) > soc_col_width:
+			soc_col_width = len(str(soc))
+		row += 1
+
+	worksheet4.set_column(0, 0, output_col_width)
+	worksheet4.set_column(1, 0, lb_col_width)
+	worksheet4.set_column(2, 0, hp_col_width)
+	worksheet4.set_column(3, 0, soc_col_width)
+
+	workbook.close()
 
 	return response
