@@ -920,7 +920,7 @@ def download_data(request):
 	housing_provider_additional_net_benefit_per_householdyear = total_netbenefit_housing_provider/(total_households * 10)
 	society_net_benefit_per_householdyear = total_netbenefit_society/(total_households * 10)
 
-	attachment = 'model_outputs'
+	attachment = 'model_outputs.xlsx'
 	response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 	response['Content-Disposition'] = 'attachment;filename="{}"'.format(attachment)
 
