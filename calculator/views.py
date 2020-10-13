@@ -20,7 +20,7 @@ scenario_benefits = {
 		'recyclable_waste_uplift':0.39,
 		'impact_contamination':0.46
 	},
-	'medium':{
+	'average':{
 		'recyclable_waste_uplift':0.26,
 		'impact_contamination':0.24
 	},
