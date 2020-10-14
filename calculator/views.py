@@ -34,9 +34,9 @@ sent_to_landfill_share = 6.9/(6.9+59.3)
 sent_to_efw_share = 59.3/(6.9+59.3)
 
 residual_waste_disposal = {
- 	'mixed':{'emissions_intensity':407,'cost':113*sent_to_landfill_share+89*sent_to_efw_share},
-	'landfill':{'emissions_intensity':586,'cost':113},
-	'efw':{'emissions_intensity':386,'cost':89}
+ 	'mixed':{'emissions_intensity':407,'cost':130},
+	'landfill':{'emissions_intensity':586,'cost':175},
+	'efw':{'emissions_intensity':386,'cost':125}
 }
 
 landfill_disposal_fee = 113
@@ -66,18 +66,17 @@ recycling_poster = 0.27
 annual_leaflet_manufacture = 0.35
 annual_leaflet_design = 250
 daily_salary = 25000/220
-officer_visit = 13.43
 rubbish_collection_cost = 16.26
 recycling_collection_cost = 16.26
 
 scenario_costs = {
 		'high':{
 		        'new_bins':{240:21.09,360:34,660:254.98,1100:274.52,1280:336.68},
-		        'refurb_bins':{240:21,360:34,660:69,1100:69,1280:69},
+		        'refurb_bins':{240:21.09,360:34,660:69,1100:69,1280:69},
 		        'bin_rental':{240:100*240/1100,360:100*360/1100,660:100*660/1100.2,1100:100,1280:100*1280/1100},
 		        'reverse_lid':20,
 		        'aperture':16,
-		        'bin_cleaning':16.8,
+		        'bin_cleaning':13.9,
 		        'painting':500,
 		        'lighting':237.625,
 		        'initial_deepclean':75.25,
@@ -87,15 +86,16 @@ scenario_costs = {
 		        'implementation_plan':0.3,
 		        'delivery_preparation':0.75,
 		        'FRP_rollout':0.75,
-				'installation':1
+				'installation':1,
+				'officer_visit':17.3745
 		},
 		'med-high':{
 		        'new_bins':{240:21.09,360:34,660:254.98,1100:274.52,1280:336.68},
-		        'refurb_bins':{240:21,360:34,660:69,1100:69,1280:69},
+		        'refurb_bins':{240:21.09,360:34,660:69,1100:69,1280:69},
 		        'bin_rental':{240:100*240/1100,360:100*360/1100,660:100*660/1100.2,1100:100,1280:100*1280/1100},
 		        'reverse_lid':20,
 		        'aperture':16,
-		        'bin_cleaning':15,
+		        'bin_cleaning':13.9,
 		        'painting':400,
 		        'lighting':180,
 		        'initial_deepclean':56,
@@ -105,15 +105,16 @@ scenario_costs = {
 		        'implementation_plan':0.25,
 		        'delivery_preparation':0.625,
 		        'FRP_rollout':0.625,
-				'installation':0.75
+				'installation':0.75,
+				'officer_visit':15.63705
 		},
 		'average': {
 				'new_bins':{240:21.09,360:34,660:254.98,1100:274.52,1280:336.68},
-		        'refurb_bins':{240:21,360:34,660:69,1100:69,1280:69},
+		        'refurb_bins':{240:21.09,360:34,660:69,1100:69,1280:69},
 		        'bin_rental':{240:100*240/1100,360:100*360/1100,660:100*660/1100.2,1100:100,1280:100*1280/1100},
 		        'reverse_lid':20,
 		        'aperture':16,
-		        'bin_cleaning':13.43,
+		        'bin_cleaning':13.9,
 		        'painting':300,
 		        'lighting':121.5,
 		        'initial_deepclean':37.625,
@@ -123,15 +124,16 @@ scenario_costs = {
 		        'implementation_plan':0.2,
 		        'delivery_preparation':0.5,
 		        'FRP_rollout':0.5,
-				'installation':0.5
+				'installation':0.5,
+				'officer_visit':13.8996
 		},
 		'med-low':{
 		        'new_bins':{240:21.09,360:34,660:69,1100:69,1280:69},
-		        'refurb_bins':{240:21,360:34,660:69,1100:69,1280:69},
+		        'refurb_bins':{240:21.09,360:34,660:69,1100:69,1280:69},
 		        'bin_rental':{240:100*240/1100,360:100*360/1100,660:100*660/1100.2,1100:100,1280:100*1280/1100},
 		        'reverse_lid':20,
 		        'aperture':16,
-		        'bin_cleaning':12,
+		        'bin_cleaning':13.9,
 		        'painting':500,
 		        'lighting':237.625,
 		        'initial_deepclean':75.25,
@@ -141,15 +143,16 @@ scenario_costs = {
 		        'implementation_plan':0.15,
 		        'delivery_preparation':0.375,
 		        'FRP_rollout':0.375,
-				'installation':0.375
+				'installation':0.375,
+				'officer_visit':12.16215
 		},
 		'low':{
 				'new_bins':{240:21.09,360:34,660:69,1100:69,1280:69},
-		        'refurb_bins':{240:21,360:34,660:69,1100:69,1280:69},
+		        'refurb_bins':{240:21.09,360:34,660:69,1100:69,1280:69},
 		        'bin_rental':{240:100*240/1100,360:100*360/1100,660:100*660/1100.2,1100:100,1280:100*1280/1100},
 		        'reverse_lid':20,
 		        'aperture':10,
-		        'bin_cleaning':10.0725,
+		        'bin_cleaning':13.9,
 		        'painting':0,
 		        'lighting':0,
 		        'initial_deepclean':0,
@@ -159,7 +162,8 @@ scenario_costs = {
 		        'implementation_plan':0.15,
 		        'delivery_preparation':0.375,
 		        'FRP_rollout':0.375,
-				'installation':0.25
+				'installation':0.25,
+				'officer_visit':10.4247
 		}
 
 }
@@ -178,12 +182,12 @@ FRP_uplift_resident_experience = 0.1
 wtp_recycling = 10.1/60
 
 waste = {
-    'food_drink_cans':{'share':0.029,'price':385},
-    'glass':{'share':0.224,'price':10.5},
+    'food_drink_cans':{'share':0.029,'price':100},
+    'glass':{'share':0.224,'price':10},
     'cartons':{'share':0.009,'price':275},
-    'paper':{'share':0.231,'price':10},
+    'paper':{'share':0.231,'price':20},
     'cardboard':{'share':0.17,'price':60},
-    'plastics':{'share':0.076,'price':115},
+    'plastics':{'share':0.076,'price':100},
 }
 
 
@@ -230,7 +234,6 @@ def calculatorform(request):
 			residual_waste_disposal_method = form.cleaned_data['residual_waste_disposal_method']
 			bin_purchase_maintenance_agent = form.cleaned_data['bin_purchase_maintenance_agent']
 			bin_rental_housing_provider = form.cleaned_data['bin_rental_housing_provider']
-			bin_rental_agent = form.cleaned_data['bin_rental_agent']
 			binstore_refurb_agent = form.cleaned_data['binstore_refurb_agent']
 			stickers_posters_signage_agent = form.cleaned_data['stickers_posters_signage_agent']
 			stickers_posters_signage_design_agent = form.cleaned_data['stickers_posters_signage_agent']
@@ -251,11 +254,8 @@ def calculatorform(request):
 			else:
 				preFRP_total_waste = preFRP_waste_volume
 
-			dry_recycling_per_household = form.cleaned_data['dry_recycling_per_household']
-			if dry_recycling_per_household is None:
-				baseline_dry_recyclable_waste = borough_data['Flats (t/hh)'][form.cleaned_data['borough']] * 1000
-			else:
-				baseline_dry_recyclable_waste = dry_recycling_per_household * 1000
+
+			baseline_dry_recyclable_waste = borough_data['Flats (t/hh)'][form.cleaned_data['borough']] * 1000
 
 			residual_waste_disposal_costs = form.cleaned_data.get('residual_waste_disposal')
 			if residual_waste_disposal_costs is None:
@@ -265,12 +265,12 @@ def calculatorform(request):
 
 			recycling_waste_disposal_costs = form.cleaned_data.get('recycling_waste_disposal_costs')
 			if recycling_waste_disposal_costs is None:
-				mdf_disposal_fee = 27
+				mdf_disposal_fee = 18
 			else:
 				mdf_disposal_fee = recycling_waste_disposal_costs
 			contamination_waste_disposal_costs = form.cleaned_data.get('contamination_waste_disposal_costs')
 			if contamination_waste_disposal_costs is None:
-				contamination_cost = 92
+				contamination_cost = 176
 			else:
 				contamination_cost = contamination_waste_disposal_costs
 
@@ -380,7 +380,7 @@ def calculatorform(request):
 			ongoing_cost_assignment = {
 				'total_ongoing_binstore_costs':{
 					'agent':form.cleaned_data['cleaning_inspections_agent'],
-					'value':total_binstores * (user_cleaning * 52 + officer_visit * 12),
+					'value':total_binstores * (user_cleaning * 52 + scenario_costs[form.cleaned_data['ongoing_cost_scenario']]['officer_visit'] * 12),
 					'year':1
 				},
 				'total_ongoing_leaflet_manufacture':{
@@ -396,17 +396,17 @@ def calculatorform(request):
 				'total_ongoing_refurb_costs':{
 					'agent':form.cleaned_data['bin_purchase_maintenance_agent'],
 					'value':total_recycling_bins * scenario_costs[form.cleaned_data['ongoing_cost_scenario']]['refurb_bins'][form.cleaned_data['capacity_per_bin']],
-					'year':8
+					'year':5
 				},
 				'total_ongoing_recycling_bin_sticker_costs':{
 					'agent':form.cleaned_data['stickers_posters_signage_agent'],
 					'value':total_recycling_bins * (recycling_bin_sticker_manufacture + recycling_bin_aperture_sticker_manufacture),
-					'year':5
+					'year':1
 				},
 				'total_ongoing_rubbish_bin_sticker_costs':{
 					'agent':form.cleaned_data['stickers_posters_signage_agent'],
 					'value':rubbish_bin_sticker_manufacture * total_rubbish_bins,
-					'year':5
+					'year':1
 				},
 				'total_annual_leaflet_design':{
 					'agent':form.cleaned_data['stickers_posters_signage_design_agent'],
@@ -429,14 +429,11 @@ def calculatorform(request):
 			year1_total_ongoing_costs_housing_provider = sum(d['value'] for d in ongoing_cost_assignment.values() if (d['agent'] == 'housing_provider' and d['year'] == 1))
 			year5_total_ongoing_costs_london_borough = sum(d['value'] for d in ongoing_cost_assignment.values() if (d['agent'] == 'london_borough' and d['year'] == 5)) + year1_total_ongoing_costs_london_borough
 			year5_total_ongoing_costs_housing_provider = sum(d['value'] for d in ongoing_cost_assignment.values() if (d['agent'] == 'housing_provider' and d['year'] == 5)) + year1_total_ongoing_costs_housing_provider
-			year8_total_ongoing_costs_london_borough = sum(d['value'] for d in ongoing_cost_assignment.values() if (d['agent'] == 'london_borough' and d['year'] == 8)) + year1_total_ongoing_costs_london_borough
-			year8_total_ongoing_costs_housing_provider = sum(d['value'] for d in ongoing_cost_assignment.values() if (d['agent'] == 'housing_provider' and d['year'] == 8)) + year1_total_ongoing_costs_housing_provider
 
 			year0_total_ongoing_costs_london_borough = year5_total_ongoing_costs_london_borough - ongoing_cost_assignment['total_bin_rental_costs_borough']['value']
 			year0_total_ongoing_costs_housing_provider = year5_total_ongoing_costs_housing_provider - ongoing_cost_assignment['total_bin_rental_costs_housing_provider']['value']
 			year1_total_ongoing_costs = year1_total_ongoing_costs_london_borough + year1_total_ongoing_costs_housing_provider
 			year5_total_ongoing_costs = year5_total_ongoing_costs_london_borough + year5_total_ongoing_costs_housing_provider
-			year8_total_ongoing_costs = year8_total_ongoing_costs_london_borough + year8_total_ongoing_costs_housing_provider
 
 			### BENEFITS ###
 			recyclable_waste_uplift_parameter = scenario_benefits[form.cleaned_data['diverted_waste_benefit_scenario']]['recyclable_waste_uplift']
@@ -487,13 +484,9 @@ def calculatorform(request):
 			year5_netbenefit_housing_provider = -year5_total_ongoing_costs_housing_provider
 			year5_social_benefit = year5_netbenefit_london_borough + year5_netbenefit_housing_provider + total_cost_diverted_material + scc_diverted + value_improvement_resident_total
 
-			year8_netbenefit_london_borough = -year8_total_ongoing_costs_london_borough + additional_waste_disposal_cost + total_cost_diverted_material * total_cost_diverted_material_adjustment
-			year8_netbenefit_housing_provider= -year8_total_ongoing_costs_housing_provider
-			year8_social_benefit = year8_netbenefit_london_borough + year8_netbenefit_housing_provider + total_cost_diverted_material + scc_diverted + value_improvement_resident_total
-
-			total_netbenefit_london_borough = year0_netbenefit_london_borough + 7*year1_netbenefit_london_borough + 2*year5_netbenefit_london_borough + year8_netbenefit_london_borough
-			total_netbenefit_housing_provider = year0_netbenefit_housing_provider + 7*year1_netbenefit_housing_provider + 2*year5_netbenefit_housing_provider + year8_netbenefit_housing_provider
-			total_netbenefit_society = year0_social_benefit + 7*year1_social_benefit + 2*year5_social_benefit + year8_social_benefit
+			total_netbenefit_london_borough = year0_netbenefit_london_borough + 8*year1_netbenefit_london_borough + 2*year5_netbenefit_london_borough
+			total_netbenefit_housing_provider = year0_netbenefit_housing_provider + 8*year1_netbenefit_housing_provider + 2*year5_netbenefit_housing_provider
+			total_netbenefit_society = year0_social_benefit + 8*year1_social_benefit + 2*year5_social_benefit
 
 			test_cost = ongoing_cost_assignment['total_ongoing_refurb_costs']['value']
 
@@ -532,7 +525,6 @@ def calculatorform(request):
 				'residual_waste_disposal_method':residual_waste_disposal_method,
 				'bin_purchase_maintenance_agent':bin_purchase_maintenance_agent,
 				'bin_rental_housing_provider':bin_rental_housing_provider,
-				'bin_rental_agent':bin_rental_agent,
 				'binstore_refurb_agent':binstore_refurb_agent,
 				'stickers_posters_signage_agent':stickers_posters_signage_agent,
 				'stickers_posters_signage_design_agent':stickers_posters_signage_agent,
@@ -541,7 +533,6 @@ def calculatorform(request):
 				'additional_collections_agent':additional_collections_agent,
 				'preFRP_dry_recycling_volume': preFRP_dry_recycling_volume,
 				'preFRP_waste_volume': preFRP_waste_volume,
-				'dry_recycling_per_household': dry_recycling_per_household,
 				'residual_waste_disposal_costs': residual_waste_disposal_costs,
 				'recycling_waste_disposal_costs': recycling_waste_disposal_costs,
 				'contamination_waste_disposal_costs': contamination_waste_disposal_costs
@@ -568,11 +559,9 @@ def calculatorform(request):
 				'year0_total_ongoing_costs_london_borough':year0_total_ongoing_costs_london_borough,
 				'year1_total_ongoing_costs_london_borough':year1_total_ongoing_costs_london_borough,
 				'year5_total_ongoing_costs_london_borough':year5_total_ongoing_costs_london_borough,
-				'year8_total_ongoing_costs_london_borough':year8_total_ongoing_costs_london_borough,
 				'year0_total_ongoing_costs_housing_provider':year0_total_ongoing_costs_housing_provider,
 				'year1_total_ongoing_costs_housing_provider':year1_total_ongoing_costs_housing_provider,
 				'year5_total_ongoing_costs_housing_provider':year5_total_ongoing_costs_housing_provider,
-				'year8_total_ongoing_costs_housing_provider':year8_total_ongoing_costs_housing_provider,
 				'year0_netbenefit_london_borough':year0_netbenefit_london_borough,
 				'year0_netbenefit_housing_provider':year0_netbenefit_housing_provider,
 				'year0_social_benefit':year0_social_benefit,
@@ -582,9 +571,6 @@ def calculatorform(request):
 				'year5_netbenefit_london_borough':year5_netbenefit_london_borough,
 				'year5_netbenefit_housing_provider':year5_netbenefit_housing_provider,
 				'year5_social_benefit':year5_social_benefit,
-				'year8_netbenefit_london_borough':year8_netbenefit_london_borough,
-				'year8_netbenefit_housing_provider':year8_netbenefit_housing_provider,
-				'year8_social_benefit':year8_social_benefit,
 				'total_netbenefit_london_borough':total_netbenefit_london_borough,
 				'total_netbenefit_housing_provider':total_netbenefit_housing_provider,
 				'total_netbenefit_society':total_netbenefit_society,
@@ -593,7 +579,7 @@ def calculatorform(request):
 				'society_net_benefit_per_householdyear':society_net_benefit_per_householdyear,
 				'download_form': download_form
 				}
-			return render(request, 'result.html', context)
+			return render(request, 'result.html/', context)
 
 	else:
 		#creating a new form
@@ -603,7 +589,7 @@ def calculatorform(request):
 				'blocks_per_estate':5,
 				'binstores_per_block':1,
 				'recycling_bins_per_binstore':2,
-				'rubbish_bins_per_binstore':3
+				'rubbish_bins_per_binstore':3,
 			}
 		)
 
@@ -642,7 +628,6 @@ def download_data(request):
 	residual_waste_disposal_method = form.cleaned_data['residual_waste_disposal_method']
 	bin_purchase_maintenance_agent = form.cleaned_data['bin_purchase_maintenance_agent']
 	bin_rental_housing_provider = form.cleaned_data['bin_rental_housing_provider']
-	bin_rental_agent = form.cleaned_data['bin_rental_agent']
 	binstore_refurb_agent = form.cleaned_data['binstore_refurb_agent']
 	stickers_posters_signage_agent = form.cleaned_data['stickers_posters_signage_agent']
 	stickers_posters_signage_design_agent = form.cleaned_data['stickers_posters_signage_agent']
@@ -663,11 +648,7 @@ def download_data(request):
 	else:
 		preFRP_total_waste = preFRP_waste_volume
 
-	dry_recycling_per_household = form.cleaned_data.get('dry_recycling_per_household')
-	if dry_recycling_per_household is None:
-		baseline_dry_recyclable_waste = borough_data['Flats (t/hh)'][form.cleaned_data['borough']] * 1000
-	else:
-		baseline_dry_recyclable_waste = dry_recycling_per_household * 1000
+	baseline_dry_recyclable_waste = borough_data['Flats (t/hh)'][form.cleaned_data['borough']] * 1000
 
 	residual_waste_disposal_costs = form.cleaned_data.get('residual_waste_disposal')
 	if residual_waste_disposal_costs is None:
@@ -677,12 +658,12 @@ def download_data(request):
 
 	recycling_waste_disposal_costs = form.cleaned_data.get('recycling_waste_disposal_costs')
 	if recycling_waste_disposal_costs is None:
-		mdf_disposal_fee = 27
+		mdf_disposal_fee = 18
 	else:
 		mdf_disposal_fee = recycling_waste_disposal_costs
 	contamination_waste_disposal_costs = form.cleaned_data.get('contamination_waste_disposal_costs')
 	if contamination_waste_disposal_costs is None:
-		contamination_cost = 92
+		contamination_cost = 176
 	else:
 		contamination_cost = contamination_waste_disposal_costs
 
@@ -792,7 +773,7 @@ def download_data(request):
 	ongoing_cost_assignment = {
 		'total_ongoing_binstore_costs':{
 			'agent':form.cleaned_data['cleaning_inspections_agent'],
-			'value':total_binstores * (user_cleaning * 52 + officer_visit * 12),
+			'value':total_binstores * (user_cleaning * 52 + scenario_costs[form.cleaned_data['ongoing_cost_scenario']]['officer_visit'] * 12),
 			'year':1
 		},
 		'total_ongoing_leaflet_manufacture':{
@@ -841,14 +822,11 @@ def download_data(request):
 	year1_total_ongoing_costs_housing_provider = sum(d['value'] for d in ongoing_cost_assignment.values() if (d['agent'] == 'housing_provider' and d['year'] == 1))
 	year5_total_ongoing_costs_london_borough = sum(d['value'] for d in ongoing_cost_assignment.values() if (d['agent'] == 'london_borough' and d['year'] == 5)) + year1_total_ongoing_costs_london_borough
 	year5_total_ongoing_costs_housing_provider = sum(d['value'] for d in ongoing_cost_assignment.values() if (d['agent'] == 'housing_provider' and d['year'] == 5)) + year1_total_ongoing_costs_housing_provider
-	year8_total_ongoing_costs_london_borough = sum(d['value'] for d in ongoing_cost_assignment.values() if (d['agent'] == 'london_borough' and d['year'] == 8)) + year1_total_ongoing_costs_london_borough
-	year8_total_ongoing_costs_housing_provider = sum(d['value'] for d in ongoing_cost_assignment.values() if (d['agent'] == 'housing_provider' and d['year'] == 8)) + year1_total_ongoing_costs_housing_provider
 
 	year0_total_ongoing_costs_london_borough = year5_total_ongoing_costs_london_borough - ongoing_cost_assignment['total_bin_rental_costs_borough']['value']
 	year0_total_ongoing_costs_housing_provider = year5_total_ongoing_costs_housing_provider - ongoing_cost_assignment['total_bin_rental_costs_housing_provider']['value']
 	year1_total_ongoing_costs = year1_total_ongoing_costs_london_borough + year1_total_ongoing_costs_housing_provider
 	year5_total_ongoing_costs = year5_total_ongoing_costs_london_borough + year5_total_ongoing_costs_housing_provider
-	year8_total_ongoing_costs = year8_total_ongoing_costs_london_borough + year8_total_ongoing_costs_housing_provider
 
 	### BENEFITS ###
 	recyclable_waste_uplift_parameter = scenario_benefits[form.cleaned_data['diverted_waste_benefit_scenario']]['recyclable_waste_uplift']
@@ -899,13 +877,9 @@ def download_data(request):
 	year5_netbenefit_housing_provider = -year5_total_ongoing_costs_housing_provider
 	year5_social_benefit = year5_netbenefit_london_borough + year5_netbenefit_housing_provider + total_cost_diverted_material + scc_diverted + value_improvement_resident_total
 
-	year8_netbenefit_london_borough = -year8_total_ongoing_costs_london_borough + additional_waste_disposal_cost + total_cost_diverted_material * total_cost_diverted_material_adjustment
-	year8_netbenefit_housing_provider= -year8_total_ongoing_costs_housing_provider
-	year8_social_benefit = year8_netbenefit_london_borough + year8_netbenefit_housing_provider + total_cost_diverted_material + scc_diverted + value_improvement_resident_total
-
-	total_netbenefit_london_borough = year0_netbenefit_london_borough + 7*year1_netbenefit_london_borough + 2*year5_netbenefit_london_borough + year8_netbenefit_london_borough
-	total_netbenefit_housing_provider = year0_netbenefit_housing_provider + 7*year1_netbenefit_housing_provider + 2*year5_netbenefit_housing_provider + year8_netbenefit_housing_provider
-	total_netbenefit_society = year0_social_benefit + 7*year1_social_benefit + 2*year5_social_benefit + year8_social_benefit
+	total_netbenefit_london_borough = year0_netbenefit_london_borough + 8*year1_netbenefit_london_borough + 2*year5_netbenefit_london_borough
+	total_netbenefit_housing_provider = year0_netbenefit_housing_provider + 8*year1_netbenefit_housing_provider + 2*year5_netbenefit_housing_provider
+	total_netbenefit_society = year0_social_benefit + 8*year1_social_benefit + 2*year5_social_benefit
 
 	test_cost = ongoing_cost_assignment['total_ongoing_refurb_costs']['value']
 
@@ -993,7 +967,7 @@ def download_data(request):
 		['Year 5 ongoing costs',round(year5_total_ongoing_costs_london_borough/100)*100,round(year5_total_ongoing_costs_housing_provider/100)*100],
 		['Year 6 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100],
 		['Year 7 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100],
-		['Year 8 ongoing costs',round(year8_total_ongoing_costs_london_borough/100)*100,round(year8_total_ongoing_costs_housing_provider/100)*100],
+		['Year 8 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100],
 		['Year 9 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100],
 		['Year 10 ongoing costs',round(year5_total_ongoing_costs_london_borough/100)*100,round(year5_total_ongoing_costs_housing_provider/100)*100],
 	)
@@ -1055,7 +1029,7 @@ def download_data(request):
 		['Year 5 net benefit',round(year5_netbenefit_london_borough/100)*100,round(year5_netbenefit_housing_provider/100)*100,round(year5_social_benefit/100)*100],
 		['Year 6 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
 		['Year 7 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
-		['Year 8 net benefit',round(year8_netbenefit_london_borough/100)*100,round(year8_netbenefit_housing_provider/100)*100,round(year8_social_benefit/100)*100],
+		['Year 8 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
 		['Year 9 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
 		['Year 10 net benefit',round(year5_netbenefit_london_borough/100)*100,round(year5_netbenefit_housing_provider/100)*100,round(year5_social_benefit/100)*100],
 	)

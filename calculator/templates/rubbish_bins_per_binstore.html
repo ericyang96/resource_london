@@ -5,7 +5,7 @@
             {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
         </label>
     {% endif %}
-    <i class="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="top" title="Specify the (average) number of recycling bins per bin store to be implemented as part of the Flats Recycling Package. Note the Flats Recycling Package recommended dry recycling bin capacity per household of 60 litres/hh/week."></i>
+    <i class="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="top" title="Specify the (average) number of recycling bins per bin area to be implemented as part of the Flats Recycling Package. Note the Flats Recycling Package recommended dry recycling bin capacity per household of 60 litres/hh/week."></i>
     <div class="controls {{ field_class }}">
         {% crispy_field field %}
         {% include 'bootstrap3/layout/help_text_and_errors.html' %}

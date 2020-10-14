@@ -5,7 +5,7 @@
             {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
         </label>
     {% endif %}
-    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Specify the average number of dry recycling bins per bin store before the Flats Recycling Package was implemented. Increased costs are assumed to result from any increases in the frequency of dry recycling collections."></i>
+    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Specify the average number of dry recycling bins per bin area before the Flats Recycling Package was implemented. Increased costs are assumed to result from any increases in the frequency of dry recycling collections."></i>
     <div class="controls {{ field_class }}">
         {% crispy_field field %}
         {% include 'bootstrap3/layout/help_text_and_errors.html' %}

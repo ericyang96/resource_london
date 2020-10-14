@@ -5,7 +5,7 @@
             {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
         </label>
     {% endif %}
-    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Select the mode of alternative residual waste disposal.  'Mix (London average)' represents the estimated average waste disposal for London as a whole across Energy from Waste and Landfill methods."></i>
+    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title='Select the method your borough uses for residual waste disposal. "Mix (London average)" represents the estimated average waste disposal for London as a whole across Energy from Waste and Landfill.''></i>
     <div class="controls {{ field_class }}">
         {% crispy_field field %}
         {% include 'bootstrap3/layout/help_text_and_errors.html' %}

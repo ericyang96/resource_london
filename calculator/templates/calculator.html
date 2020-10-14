@@ -55,6 +55,9 @@
                 <a class="btn btn-lg btn-secondary" role="button" title="Logout" href="{% url 'logout'%}">Logout</a>
               </div>
             </div>
+            <p>
+              All fields marked with * are required.
+            </p>
             {% block content %}
             {% crispy form %}
             {% endblock %}
