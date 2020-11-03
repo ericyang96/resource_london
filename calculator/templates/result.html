@@ -45,7 +45,6 @@
             <div class="col-4">
               {% if download_form %}
                 <form action="{% url 'download_data' %}"  method="POST">
-                    {% csrf_token %}
                     {{ download_form.as_p }}
                     <p>
                         <input type="submit" class="btn btn-primary" name="submit" value="Download model outputs" />
