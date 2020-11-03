@@ -49,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware'
 ]
+SESSION_COOKIE_SAMESITE = None
 CSRF_COOKIE_SAMESITE = None
 CSRF_COOKIE_SECURE = True
 
