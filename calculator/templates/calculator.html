@@ -63,6 +63,7 @@
               All fields marked with * are required.
             </p>
             {% block content %}
+            {% csrf_token %}
             {% crispy form %}
             {% endblock %}
             <button type="button" id ='tomato' class="btn btn-secondary mt-4">Clear all default values (cannot be undone!)</button>
