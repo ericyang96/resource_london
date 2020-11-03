@@ -5,7 +5,7 @@
             {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
         </label>
     {% endif %}
-    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Specify the collection frequency per week to be implemented with FRP (i.e. twice weekly = enter 2, fortnightly = enter 0.5). Note that FRP standards recommend a minimum dry recycling bin capacity per household of 60 litres/hh/week."></i>
+    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Specify the collection frequency per week to be implemented with FRP (i.e. twice weekly = enter 2, fortnightly = enter 0.5). Note that FRP standards recommend a minimum dry recycling bin capacity per household of 60 litres/hh/week. This standard can be achieved by varying the number of recycling bins or the recycling waste collection frequency."></i>
     <div class="controls {{ field_class }}">
         {% crispy_field field %}
         {% include 'bootstrap3/layout/help_text_and_errors.html' %}

@@ -33,8 +33,8 @@ reduced_contamination_choices= [
     ]
 
 user_type_choices= [
-    ('london_borough', 'London Borough'),
-    ('housing_provider', 'Housing Provider'),
+    ('london_borough', 'London borough'),
+    ('housing_provider', 'Housing provider'),
     ]
 
 borough_choices = [
@@ -89,7 +89,7 @@ bin_capacity_choices = [
 
 agent_choices = [
     ('', '-----------'),
-	('london_borough','London Borough'),
+	('london_borough','London borough'),
 	('housing_provider','Housing provider')
 ]
 
@@ -111,34 +111,35 @@ class CalculatorForm(forms.Form):
     # Estate assumptions
     number_of_estates = forms.IntegerField(label='Number of estates',min_value=1)
     households_per_estate = forms.IntegerField(label='Households per estate',min_value=1)
-    binstores_per_block = forms.IntegerField(label='Bin areas per block',min_value=0)
     blocks_per_estate = forms.IntegerField(label='Blocks per estate',min_value=1)
+    binstores_per_block = forms.IntegerField(label='Bin areas per block',min_value=0)
     recycling_bins_per_binstore = forms.IntegerField(label='Recycling bins per bin area',min_value=0)
     rubbish_bins_per_binstore = forms.IntegerField(label='Rubbish bins per bin area',min_value=0)
 
     # Collection assumptions
     capacity_per_bin = forms.IntegerField(label='Recycling capacity per bin',widget=forms.Select(choices=bin_capacity_choices))
-    preFRP_collections_per_week = forms.IntegerField(label='Pre-FRP frequency of recycling collections per week',min_value=1)
-    FRP_collections_per_week = forms.IntegerField(label='FRP frequency of recycling collections per week',min_value=1)
+    preFRP_collections_per_week = forms.FloatField(label='Pre-FRP frequency of recycling collections/week',min_value=0)
+    FRP_collections_per_week = forms.FloatField(label='FRP frequency of recycling collections/week',min_value=0)
     material_collections = forms.IntegerField(label='Material collections',min_value=1)
     preFRP_recycling_bins_per_binstore = forms.IntegerField(label='Recycling bins per bin area (pre-FRP)',min_value=0)
     residual_waste_disposal_method = forms.CharField(label='Residual waste disposal method', widget=forms.Select(choices=residual_waste_disposal_choices))
 
     # Cost allocations
-    bin_purchase_maintenance_agent = forms.CharField(label='Bin purchase/maintenance', widget=forms.Select(choices=agent_choices))
-    bin_rental_housing_provider = forms.CharField(label='Bin rental to housing provider?', widget=forms.Select(choices=boolean_choices))
+    bin_purchase_maintenance_agent = forms.CharField(label='New bin purchase/maintenance', widget=forms.Select(choices=agent_choices))
+    bin_rental_housing_provider = forms.CharField(label='Recycling bin rental to housing provider?', widget=forms.Select(choices=boolean_choices))
     binstore_refurb_agent = forms.CharField(label='Bin area refurbishment', widget=forms.Select(choices=agent_choices))
     stickers_posters_signage_agent = forms.CharField(label='Stickers, posters, signage, leaflet (product)', widget=forms.Select(choices=agent_choices))
     stickers_posters_signage_design_agent = forms.CharField(label='Stickers, posters, signage, leaflet (design)', widget=forms.Select(choices=agent_choices))
     project_management_agent = forms.CharField(label='Project management', widget=forms.Select(choices=agent_choices))
-    cleaning_inspections_agent = forms.CharField(label='Regular cleaning/inspections', widget=forms.Select(choices=agent_choices))
+    cleaning_agent = forms.CharField(label='Regular cleaning', widget=forms.Select(choices=agent_choices))
+    inspections_agent = forms.CharField(label='Monthly officer inspections', widget=forms.Select(choices=agent_choices))
     additional_collections_agent = forms.CharField(label='Additional recycling waste collections', widget=forms.Select(choices=agent_choices))
 
     # Optional assumptions
-    preFRP_dry_recycling_volume = forms.IntegerField(label='Dry recycling volume (pre-FRP)',required=False,help_text='Enter a value in tonnes',min_value=0)
-    preFRP_waste_volume = forms.IntegerField(label='Total waste volume (pre-FRP)',required=False,help_text='Enter a value in tonnes',min_value=0)
+    preFRP_dry_recycling_volume = forms.IntegerField(label='Dry recycling tonnage (pre-FRP)',required=False,help_text='Enter a value in tonnes',min_value=0)
+    preFRP_waste_volume = forms.IntegerField(label='Total household waste tonnage (pre-FRP)',required=False,help_text='Include both recycling and residual waste',min_value=0)
     residual_waste_disposal_costs = forms.IntegerField(label='Borough residual waste disposal costs',required=False,min_value=0)
-    recycling_waste_disposal_costs = forms.IntegerField(label='Borough recycling waste disposal costs',required=False,min_value=0)
+    recycling_waste_disposal_costs = forms.IntegerField(label='Borough recycling treatment costs',required=False,min_value=0)
     contamination_waste_disposal_costs = forms.IntegerField(label='Cost of contamination',required=False,min_value=0)
 
     def __init__(self, *args, **kwargs):
@@ -181,13 +182,13 @@ class CalculatorForm(forms.Form):
                     Field('households_per_estate', template="households_per_estate.html")
                 ),
                 Column(
-                    Field('binstores_per_block', template="binstores_per_block.html")
+                    Field('blocks_per_estate', template="blocks_per_estate.html")
                 ),
                 css_class='form-row'
             ),
             Row(
                 Column(
-                    Field('blocks_per_estate', template="blocks_per_estate.html")
+                    Field('binstores_per_block', template="binstores_per_block.html")
                 ),
                 Column(
                     Field('recycling_bins_per_binstore', template="recycling_bins_per_binstore.html")
@@ -200,25 +201,28 @@ class CalculatorForm(forms.Form):
             HTML("<h4>Collection Assumptions</h4>"),
             Row(
                 Column(
-                    Field('capacity_per_bin', template="capacity_per_bin.html", css_class='form-group col-md-4 mb-0',)
+                    Field('capacity_per_bin', template="capacity_per_bin.html")
                 ),
                 Column(
-                    Field('preFRP_collections_per_week', template="preFRP_collections_per_week.html",css_class='form-group col-md-4 mb-0'),
+                    Field('material_collections', template="material_collections.html")
                 ),
                 Column(
-                    Field('FRP_collections_per_week', template="FRP_collections_per_week.html", css_class='form-group col-md-4 mb-0')
+                    Field('preFRP_recycling_bins_per_binstore', template="preFRP_recycling_bins_per_binstore.html")
+                ),
+                css_class='form-row'
+            ),
+            Row(
+                Column(
+                    Field('preFRP_collections_per_week', template="preFRP_collections_per_week.html"),
+                ),
+                Column(
+                    Field('FRP_collections_per_week', template="FRP_collections_per_week.html")
                     ),
                 css_class='form-row'
             ),
             Row(
                 Column(
-                    Field('material_collections', template="material_collections.html", css_class='form-group col-md-4 mb-0')
-                ),
-                Column(
-                    Field('preFRP_recycling_bins_per_binstore', template="preFRP_recycling_bins_per_binstore.html", css_class='form-group col-md-4 mb-0')
-                ),
-                Column(
-                    Field('residual_waste_disposal_method', template="residual_waste_disposal_method.html", css_class='form-group col-md-10 mb-0')
+                    Field('residual_waste_disposal_method', template="residual_waste_disposal_method.html", css_class='form-group col-md-4 mb-0')
                 ),
                 css_class='form-row'
             ),
@@ -228,17 +232,23 @@ class CalculatorForm(forms.Form):
                     Field('bin_purchase_maintenance_agent', template="bin_purchase_maintenance_agent.html"),
                 ),
                 Column(
-                    Field('bin_rental_housing_provider', template="bin_rental_housing_provider.html")
-                    ),
-                Column(
                     Field('binstore_refurb_agent', template="binstore_refurb_agent.html")
+                ),
+                Column(
+                    Field('project_management_agent', template="project_management_agent.html")
                 ),
                 css_class='form-row'
             ),
             Row(
                 Column(
-                    Field('project_management_agent', template="project_management_agent.html")
+                    Field('cleaning_agent', template="cleaning_agent.html"),
                 ),
+                Column(
+                    Field('inspections_agent', template="inspections_agent.html")
+                ),
+                css_class='form-row'
+            ),
+            Row(
                 Column(
                     Field('stickers_posters_signage_agent', template="stickers_posters_signage_agent.html")
                 ),
@@ -248,9 +258,10 @@ class CalculatorForm(forms.Form):
                 css_class='form-row'
             ),
             Row(
-                Column('cleaning_inspections_agent', css_class='form-group col-md-4 mb-0'),
+                Column(
+                    Field('bin_rental_housing_provider', template="bin_rental_housing_provider.html")
+                    ),
                 Column('additional_collections_agent', css_class='form-group col-md-4 mb-0'),
-                css_class='form-row'
             ),
             HTML("<h4>Optional Assumptions</h4>"),
             Row(
@@ -260,12 +271,12 @@ class CalculatorForm(forms.Form):
                 Column(
                     Field('preFRP_waste_volume', template="preFRP_waste_volume.html")
                 ),
-                Column(
-                    Field('residual_waste_disposal_costs', template="residual_waste_disposal_costs.html")
-                ),
                 css_class='form-row'
             ),
             Row(
+                Column(
+                    Field('residual_waste_disposal_costs', template="residual_waste_disposal_costs.html")
+                ),
                 Column(
                     Field('recycling_waste_disposal_costs', template="recycling_waste_disposal_costs.html")
                 ),
@@ -298,8 +309,8 @@ class DownloadForm(forms.Form):
 
     # Collection assumptions
     capacity_per_bin = forms.IntegerField(widget=forms.HiddenInput)
-    preFRP_collections_per_week = forms.IntegerField(widget=forms.HiddenInput)
-    FRP_collections_per_week = forms.IntegerField(widget=forms.HiddenInput)
+    preFRP_collections_per_week = forms.FloatField(widget=forms.HiddenInput)
+    FRP_collections_per_week = forms.FloatField(widget=forms.HiddenInput)
     material_collections = forms.IntegerField(widget=forms.HiddenInput)
     preFRP_recycling_bins_per_binstore = forms.IntegerField(widget=forms.HiddenInput)
     residual_waste_disposal_method = forms.CharField(widget=forms.HiddenInput)
@@ -311,7 +322,8 @@ class DownloadForm(forms.Form):
     stickers_posters_signage_agent = forms.CharField(widget=forms.HiddenInput)
     stickers_posters_signage_design_agent = forms.CharField(widget=forms.HiddenInput)
     project_management_agent = forms.CharField(widget=forms.HiddenInput)
-    cleaning_inspections_agent = forms.CharField(widget=forms.HiddenInput)
+    cleaning_agent = forms.CharField(widget=forms.HiddenInput)
+    inspections_agent = forms.CharField(widget=forms.HiddenInput)
     additional_collections_agent = forms.CharField(widget=forms.HiddenInput)
 
     # Optional assumptions

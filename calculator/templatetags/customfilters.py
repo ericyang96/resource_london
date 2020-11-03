@@ -15,15 +15,15 @@ def currency(pounds):
 
 # Round all non-integer values to 1 decimal place
 def decimal(value):
-    value = round(float(value) * 100, 0)
-    return "%s%%" % (intcomma(int(value)))
+    value = round(float(value) * 100, 1)
+    return "%s%%" % value
 
 def no_decimal(value):
     no_decimal_value = int(round(value))
     if no_decimal_value >= 0:
-        return "£%s" % (intcomma(int(no_decimal_value)))
+        return "£%s" % no_decimal_value
     else:
-        return "-£%s" % (intcomma(abs(no_decimal_value)))
+        return "-£%s" % abs(no_decimal_value)
 
 register.filter('currency', currency)
 register.filter('decimal', decimal)

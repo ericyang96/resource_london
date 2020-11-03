@@ -5,7 +5,7 @@
             {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
         </label>
     {% endif %}
-    <i class="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="top" title="The impact of the FRP on the contamination rate cannot be guaranteed. Based on the range of impacts experienced in the Peabody project, three scenarios can be selected to illustrate the range of impacts that could be experienced.  Hight, average and low represent 46%, 24% and 0% impacts on the contamination rate respectively.  If your estate(s) already have low contamination rates then the low scenario could be chosen and vice versa."></i>
+    <i class="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="top" title="The impact of the FRP on the contamination rate cannot be guaranteed. Based on the range of impacts experienced in the Peabody project, three scenarios can be selected to illustrate the range of impacts that could be experienced.  High, average and low represent 46%, 24% and 0% impacts on the contamination rate respectively.  If your estate(s) already have low contamination rates then the low scenario could be chosen and vice versa."></i>
     <div class="controls {{ field_class }}">
         {% crispy_field field %}
         {% include 'bootstrap3/layout/help_text_and_errors.html' %}
