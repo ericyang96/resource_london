@@ -8,7 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from .forms import CalculatorForm, DownloadForm
 from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
+#from django.views.decorators.csrf import csrf_exempt
 
 
 df = pd.read_excel('Borough data.xlsx',sheet_name = 'London Boroughs specific',index_col=1)
@@ -205,7 +205,7 @@ def register(request):
 
     return render(request, 'register.html', {'form': f})
 
-@csrf_exempt
+#@csrf_exempt
 def calculatorform(request):
 	#if form is submitted
 	if request.method == 'POST':
