@@ -45,13 +45,13 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware'
 ]
-#SESSION_COOKIE_SAMESITE = None
-#CSRF_COOKIE_SAMESITE = None
-#CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = None
+CSRF_COOKIE_SAMESITE = None
+CSRF_COOKIE_SECURE = True
 
 ROOT_URLCONF = 'resource_london.urls'
 
