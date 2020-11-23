@@ -205,6 +205,7 @@ def register(request):
 
     return render(request, 'register.html', {'form': f})
 
+@csrf_exempt
 def calculatorform(request):
 	#if form is submitted
 	if request.method == 'POST':
