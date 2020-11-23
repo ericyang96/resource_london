@@ -51,9 +51,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware'
 ]
 
-#SESSION_COOKIE_SAMESITE = None
-#CSRF_COOKIE_SAMESITE = None
-#CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = None
+CSRF_COOKIE_SAMESITE = None
+CSRF_COOKIE_SECURE = True
 
 ROOT_URLCONF = 'resource_london.urls'
 
