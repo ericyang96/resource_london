@@ -5,7 +5,7 @@
             {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
         </label>
     {% endif %}
-    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Specify the aggregate dry recycling waste volume (tonnes per annum) applicable to the number of estates selected, before the implementation of the FRP."></i>
+    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Specify the aggregate dry recycling waste volume (tonnes per annum) applicable to the number of estates selected, before the implementation of the FRP."></a>
     <div class="controls {{ field_class }}">
         {% crispy_field field %}
         {% include 'bootstrap3/layout/help_text_and_errors.html' %}

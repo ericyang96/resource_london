@@ -5,7 +5,7 @@
             {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
         </label>
     {% endif %}
-    <i class="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="top" title="Ongoing costs included recurring costs associated with implementing FRP in designated estates, including: additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications. Five ongoing cost scenarios can be selected by users based on how difficult/easy users perceive it is to maintain the relevant estates to FRP standards:
+    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-html="true" data-placement="top" title="Ongoing costs included recurring costs associated with implementing FRP in designated estates, including: additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications. Five ongoing cost scenarios can be selected by users based on how difficult/easy users perceive it is to maintain the relevant estates to FRP standards:
     <ul>
       <li><strong>High</strong>: very high amount of maintenance required</li>
       <li><strong>Medium-high</strong>: high amount of maintenance required</li>
@@ -13,7 +13,7 @@
       <li><strong>Medium-low</strong>: little maintenance required</li>
       <li><strong>Low</strong>: very little maintenance required</li>
     </ul>
-    "></i>
+    "></a>
     <div class="controls {{ field_class }}">
         {% crispy_field field %}
         {% include 'bootstrap3/layout/help_text_and_errors.html' %}

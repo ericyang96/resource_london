@@ -6,8 +6,7 @@ register = template.Library()
 
 # Round all currency values to the nearest hundred
 def currency(pounds):
-    pounds = int(round(pounds / 100.0)) * 100
-    #dollars = round(float(dollars), 2)
+    pounds = round(pounds / 100.0) * 100
     if pounds >= 0:
         return "£%s" % (intcomma(int(pounds)))
     else:

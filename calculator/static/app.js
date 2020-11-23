@@ -27,10 +27,6 @@ $(document).ready(function(){
 
 });
 
-$(document).ready(function() {
-    $('[data-toggle="tooltip"]').tooltip({'placement': 'top'});
-});
-
 $(function () {
   $('[data-toggle="popover"]').popover({
     container: 'body'

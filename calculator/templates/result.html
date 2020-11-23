@@ -1,42 +1,12 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    {% load static %}
-    {% load humanize %}
-    {% load customfilters %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <style>
-        .tooltip-inner
-                    {
-                      max-width: 350px !important;
-                      padding-top: 10px;
-                      padding-left: 15px;
-                      padding-bottom:10px;
-                      text-align: left;
-                    }
-    </style>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/93d1fb5e3e.js" crossorigin="anonymous"></script>
-    <script src="{% static 'calculator/app.js' %}"></script>
-    <title>FRP Cost-Benefit Calculator</title>
-  </head>
-  <body>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-10">
-          <div class="page-header">
-            <img class="img-fluid margin-bottom:50px" alt="Responsive image" src='/static/calculator/resource_london_logo.png'>
-            <h2 class="mt-2 mb-2">Flats Recycling Package Cost-Benefit Calculator</h2>
-            <hr class="mt-0 mb-4">
-          </div>
+{% extends 'base.html' %}
+
+{% block content %}
+  {% load customfilters %}
+  {% load humanize %}
           <div class="row">
             <div class="col-4">
               <select>
-                  <option value="red">Overall Costs/Benefits</option>
+                  <option value="red">Overall Net Cost</option>
                   <option value="green">Key Performance Indicators</option>
                   <option value="blue">Detailed Costs</option>
                   <option value="maroon">Detailed Benefits</option>
@@ -61,33 +31,37 @@
           </div>
           <div class="red box">
             <p>
-              This page summarises the value of the net benefit flowing from implementation of FRP (benefits less costs) split between London boroughs, housing providers and society (including improvements to resident welfare).
+              This page summarises the value of the net cost from implementation of the FRP split between London boroughs, housing providers and society (including improvements to resident welfare). Descriptions of the output definitions can be found by clicking on the "Download model outputs" button at the top of the page.
             </p>
-            <h4 class="mt-3">Overall net benefits/costs</h4>
+            <h4 class="mt-3">Overall net cost</h4>
             <table class="table table-bordered table-hover table-responsive-sm">
               <thead>
-                <th>Total net benefit (London borough)</th>
-                <th>Total net benefit (Housing provider)</th>
-                <th>Total net benefit (society)
+                <th>Total net cost (London borough)
+                  <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Negative values represent a net cost to the borough from implementation of the FRP, while positive values represent a net benefit (benefits outweigh costs)."></a>
+                </th>
+                <th>Total net cost (Housing provider)
+                  <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Negative values represent a net cost to the housing provider from implementation of the FRP, while positive values represent a net benefit (benefits outweigh costs)."></a>
+                </th>
+                <th>Total net cost (society)
+                  <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Estimated annual net cost to society from implementing the FRP on the treated estate(s). Societal benefits/costs include not only costs/benefits that accrue directly to boroughs and housing providers but also those that accrue to residents and other members of society (e.g. through improved resident experience and reduced carbon emissions)."></a>
                 </th>
               </thead>
               <tbody>
                 <tr>
                   <td>{{ total_netbenefit_london_borough|currency }}</td>
-                  <td>{{ total_netbenefit_housing_provider|currency }}</td>
+                  <td>{{ total_netbenefit_housing_provider|currency}}</td>
                   <td>{{ total_netbenefit_society|currency }}</td>
                 </tr>
               </tbody>
             </table>
-            <h4 class="mt-3">Net benefits/costs by year</h4>
+            <h4 class="mt-3">Net costs by year</h4>
             <table class="table table-bordered table-hover table-responsive-sm">
               <thead>
                 <tr>
                   <th scope="col">Year</th>
-                  <th scope="col">London borough net benefit</th>
-                  <th scope="col">Housing provider net benefit</th>
-                  <th scope="col">Society net benefit
-                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated annual net benefit/(cost) to society from implementing the FRP on the treated estate(s). Societal benefits/costs include not only costs/benefits that accrue directly to boroughs and housing providers but also those that accrue to residents and other members of society (e.g. through improved resident experience and reduced carbon emissions)."></i>
+                  <th scope="col">London borough net cost</th>
+                  <th scope="col">Housing provider net cost</th>
+                  <th scope="col">Society net cost
                   </th>
                 </tr>
               </thead>
@@ -160,11 +134,11 @@
                 </tr>
               </tbody>
             </table>
-            <strong>Note</strong>: Total net benefit may not equal the sum of the value of the benefit derived in each year due to rounding.
+            <strong>Note</strong>: Total net cost may not equal the sum of the value of the costs incurred each year due to rounding.
           </div>
           <div class="green box">
             <p>
-              This page summarises the value of a range of monetary and non-monetary key performance indicators following implementation of FRP.
+              This page summarises the value of a range of monetary and non-monetary key performance indicators following implementation of FRP. Descriptions of the output definitions can be found by clicking the ? button next to each output or the "Download model outputs" button at the top of the page.
             </p>
             <h4 class="mt-3">Key performance indicators</h4>
             <table class="table table-bordered table-hover table-responsive-sm">
@@ -178,70 +152,70 @@
                 <tr>
                   <td>
                     Pre-intervention household dry recycling rate (%)
-                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated dry recycling rate before implementation of the FRP for either the London borough or for the treated estates if volumes user inputted."></i>
+                    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Estimated dry recycling rate before implementation of the FRP for either the London borough or for the treated estates if volumes user inputted."></a>
                   </td>
                   <td>{{ preFRP_household_dry_recycling_rate|decimal }}</td>
                 </tr>
                 <tr>
                   <td>
                     Post-intervention household dry recycling rate (%)
-                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated dry recycling rate after implementation of the FRP for either the London borough or for the treated estates if volumes user inputted."></i>
+                    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Estimated dry recycling rate after implementation of the FRP for either the London borough or for the treated estates if volumes user inputted."></a>
                   </td>
                   <td>{{ FRP_household_dry_recycling_rate|decimal }}</td>
                 </tr>
                 <tr>
                   <td>
                     Improvement in dry recycling rate from FRP (percentage points)
-                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated uplift (in percentage points) in the dry recycling rate as a result of implementing FRP (difference between pre and post-intervention dry recycling rate)."></i>
+                    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Estimated uplift (in percentage points) in the dry recycling rate as a result of implementing FRP (difference between pre and post-intervention dry recycling rate)."></a>
                   </td>
                   <td>{{ dry_recycling_uplift|decimal }}</td>
                 </tr>
                 <tr>
                   <td>
                     Uplift in dry recycled waste volumes in treated flats from FRP (%)
-                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated percentage increase in the volume of household waste sent to dry recycling as a result of implementing the FRP (driven by benefit scenario selected)"></i>
+                    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Estimated percentage increase in the volume of household waste sent to dry recycling as a result of implementing the FRP (driven by benefit scenario selected)"></a>
                   </td>
                   <td>{{recyclable_waste_uplift_parameter|decimal }}</td>
                 </tr>
                 <tr>
                   <td>
                     Reduction in contamination rate of dry recycling in treated flats (percentage points)
-                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated percentage point reduction in the contamination rate of household dry recycling volumes as a result of implementing the FRP (driven by benefit scenario selected)"></i>
+                    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Estimated percentage point reduction in the contamination rate of household dry recycling volumes as a result of implementing the FRP (driven by benefit scenario selected)"></a>
                   </td>
                   <td>{{contamination_reduction_parameter|decimal }}</td>
                 </tr>
                 <tr>
                   <td>
                     CO2 emissions abated (tonnes/year)
-                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated annual CO2e emissions abated (tonnes/yr) as a result of waste being diverted from final disposal i.e. EFW/Landfill."></i>
+                    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Estimated annual CO2e emissions abated (tonnes/yr) as a result of waste being diverted from final disposal i.e. EFW/Landfill."></a>
                   </td>
                   <td>{{CO2_abated|floatformat:0|intcomma}}</td>
                 </tr>
                 <tr>
                   <td>
                     Dry recycling bin capacity per household in treated flats (litres/hh/pw)
-                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="FRP includes a recommended minimum dry recycling bin capacity of 60 litres/hh/week. If this output is below then consider increasing the frequency of collections or number of bins."></i>
+                    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="FRP includes a recommended minimum dry recycling bin capacity of 60 litres/hh/week. If this output is below then consider increasing the frequency of collections or number of bins."></a>
                   </td>
                   <td>{{dry_recycling_bin_capacity_treated_flats|floatformat:0|intcomma}}</td>
                 </tr>
                 <tr>
                   <td>
                     Additional London borough net benefit per household of FRP (£ average/year)
-                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Additional London borough net benefit/cost per household of FRP (average annual £ net benefit/cost across 10-year time horizon)."></i>
+                    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Additional London borough net benefit/cost per household of FRP (average annual £ net benefit/cost across 10-year time horizon)."></a>
                   </td>
                   <td>{{ borough_additional_net_benefit_per_householdyear|no_decimal }}</td>
                 </tr>
                 <tr>
                   <td>
                     Additional housing provider net benefit per household of FRP (£ average/year)
-                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Additional housing provider net benefit/cost per household of FRP (average annual £ net benefit/cost across 10-year time horizon)."></i>
+                    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Additional housing provider net benefit/cost per household of FRP (average annual £ net benefit/cost across 10-year time horizon)."></a>
                   </td>
                   <td>{{ housing_provider_additional_net_benefit_per_householdyear|no_decimal }}</td>
                 </tr>
                 <tr>
                   <td>
                     Net benefit to society per household from FRP (£/year)
-                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated annual net benefit/(cost) to society per household from implementing the FRP on the treated estates. Societal benefits/costs include not only costs/benefits that accrue directly to Boroughs/Housing providers but also those that accrue to residents and other members of society (e.g. through improved resident experience and reduced carbon emissions)."></i>
+                    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Estimated annual net benefit/(cost) to society per household from implementing the FRP on the treated estates. Societal benefits/costs include not only costs/benefits that accrue directly to Boroughs/Housing providers but also those that accrue to residents and other members of society (e.g. through improved resident experience and reduced carbon emissions)."></a>
                   </td>
                   <td>{{ society_net_benefit_per_householdyear|no_decimal }}</td>
                 </tr>
@@ -250,11 +224,11 @@
           </div>
           <div class="blue box">
             <p>
-              This page summarises the profile over 10 years of additional setup and ongoing costs as a result of implementing FRP, split between London boroughs and housing providers.
+              This page summarises the profile over 10 years of additional setup and ongoing costs as a result of implementing FRP, split between London boroughs and housing providers. Descriptions of the output definitions can be found by clicking the ? button next to each output or the "Download model outputs" button at the top of the page.
             </p>
             <div class="row align-items-center">
               <h4 class="p-2">Total setup costs</h4>
-              <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Setup costs included one-off costs associated with implementing the FRP in designated estates, including: bringing bin provision up to the specified standard, improvements to bin stores, project management to implement measures, and the initial cost of signage/communications"></i>
+              <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Setup costs included one-off costs associated with implementing the FRP in designated estates, including: bringing bin provision up to the specified standard, improvements to bin stores, project management to implement measures, and the initial cost of signage/communications"></a>
             </div>
             <table class="table table-bordered table-hover table-responsive-sm">
               <thead>
@@ -272,7 +246,7 @@
             </table>
             <div class="row align-items-center">
                 <h4 class="p-2">Ongoing costs by year</h4>
-                <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Ongoing costs included recurring costs associated with implementing the Flats Recycling Package in designated estates, including: additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications."></i>
+                <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Ongoing costs included recurring costs associated with implementing the Flats Recycling Package in designated estates, including: additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications."></a>
               </div>
             <table class="table table-bordered table-hover table-responsive-sm">
               <thead>
@@ -344,7 +318,7 @@
           </div>
           <div class="maroon box">
             <p>
-              This page summarises the value of the full range of benefits, in monetary terms, expected to flow from implementing FRP.
+              This page summarises the value of the full range of benefits, in monetary terms, expected to flow from implementing FRP. Descriptions of the output definitions can be found by clicking the ? button next to each output or the "Download model outputs" button at the top of the page.
             </p>
             <h4 class="mt-3">Detailed benefits</h4>
             <table class="table table-bordered table-hover table-responsive-sm">
@@ -358,35 +332,35 @@
                 <tr>
                   <td>
                     Social cost of carbon diverted
-                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated monetary value of CO2e emissions abated (tonnes/yr) as a result of waste being diverted from alternative waste disposal methods. Emission reductions are valued at a social cost of carbon of £69.30/tonne."></i>
+                    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Estimated monetary value of CO2e emissions abated (tonnes/yr) as a result of waste being diverted from alternative waste disposal methods. Emission reductions are valued at a social cost of carbon of £69.30/tonne."></a>
                   </td>
                   <td>{{scc_diverted|currency }}</td>
                 </tr>
                 <tr>
                   <td>
                     Cost reduction of waste disposal (reduced gate fees and landfill tax)
-                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated reduction in waste disposal costs (including gate fees, landfill and other taxes) for London boroughs as a result of waste being diverted from alternative methods to recycling."></i>
+                    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Estimated reduction in waste disposal costs (including gate fees, landfill and other taxes) for London boroughs as a result of waste being diverted from alternative methods to recycling."></a>
                   </td>
                   <td>{{additional_waste_disposal_cost|currency }}</td>
                 </tr>
                 <tr>
                   <td>
                     Reduced residual waste collection costs
-                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated monetary benefit of reduced residual waste collection frequency following the implementation of the FRP."></i>
+                    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Estimated monetary benefit of reduced residual waste collection frequency following the implementation of the FRP."></a>
                   </td>
                   <td>{{ reduced_residual_waste_collection_costs|currency }}</td>
                 </tr>
                 <tr>
                   <td>
                     Value of material diverted from landfill/efw/contamination
-                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated value of additional materials collected through increased recycled waste volumes. This benefit is assumed to accrue to Boroughs if multisource collections are selected."></i>
+                    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Estimated value of additional materials collected through increased recycled waste volumes. This benefit is assumed to accrue to Boroughs if multisource collections are selected."></a>
                   </td>
                   <td>{{total_cost_diverted_material|currency }}</td>
                 </tr>
                 <tr>
                   <td>
                     Value of improved resident experience
-                    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Estimated monetary value to residents of improved recycling service and estate cleanliness (improved visual and reduced odours) as a result of implementing the FRP. These results have been calculated using survey evidence from the economic literature concerning the value people place on both improved recycling facilities and improvements to their local environment."></i>
+                    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Estimated monetary value to residents of improved recycling service and estate cleanliness (improved visual and reduced odours) as a result of implementing the FRP. These results have been calculated using survey evidence from the economic literature concerning the value people place on both improved recycling facilities and improvements to their local environment."></a>
                   </td>
                   <td>{{value_improvement_resident_total|currency }}</td>
                 </tr>
@@ -400,14 +374,4 @@
             </table>
             <strong>Note</strong>: Total social benefit of FRP may not equal the sum of the value of individual benefits due to rounding.
           </div>
-        </div>
-        <footer class="page-footer font-small special-color-dark pt-4">
-          <div class="footer-copyright text-center py-3">
-            © 2020 Resource London. Developed in partnership with Alma Economics
-          </div>
-        </footer>
-      </div>
-    </div>
-
-  </body>
-</html>
+        {% endblock %}

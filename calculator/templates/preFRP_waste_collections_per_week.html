@@ -5,7 +5,7 @@
             {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
         </label>
     {% endif %}
-    <a class="far fa-question-circle" data-toggle="popover" data-html="true" tabindex="0" data-trigger="focus" data-placement="top" title="Specify the (average) number of bin areas per block."></a>
+    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Specify the residual waste collection frequency per week before the implementation of FRP (i.e. twice weekly = enter 2, weekly = enter 1, fortnightly = enter 0.5)."></a>
     <div class="controls {{ field_class }}">
         {% crispy_field field %}
         {% include 'bootstrap3/layout/help_text_and_errors.html' %}

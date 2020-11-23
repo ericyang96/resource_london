@@ -5,7 +5,7 @@
             {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
         </label>
     {% endif %}
-    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Specify residual waste disposal costs in £/tonne. Disposal costs should include gate fees and any landfill or other taxes applicable."></i>
+    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus"data-placement="top" title="Specify residual waste disposal costs in £/tonne. Disposal costs should include gate fees and any landfill or other taxes applicable."></a>
     <div class="controls {{ field_class }}">
         {% crispy_field field %}
         {% include 'bootstrap3/layout/help_text_and_errors.html' %}

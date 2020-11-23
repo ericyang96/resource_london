@@ -5,7 +5,7 @@
             {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
         </label>
     {% endif %}
-    <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="Specify the total waste (recycling, residual, other) collected by the applicable number of estate(s) in tonnes per annum pre FRP."></i>
+    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-html="true" data-placement="top" title="Specify the total waste (recycling, residual, other) collected by the applicable number of estate(s) in tonnes per annum pre FRP. For information on converting fill rates to tonnage, please see the <a href='https://www.wrap.org.uk/sites/files/wrap/Bulk%20Density%20Summary%20Report%20-%20Jan2010.pdf'>2010 WRAP report on material bulk densities</a>."></a>
     <div class="controls {{ field_class }}">
         {% crispy_field field %}
         {% include 'bootstrap3/layout/help_text_and_errors.html' %}

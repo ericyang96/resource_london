@@ -79,7 +79,7 @@ residual_waste_disposal_choices = [
 ]
 
 bin_capacity_choices = [
-    ('', '------'),
+    ('', ''),
     (240,240),
 	(360,360),
 	(660,660),
@@ -88,12 +88,13 @@ bin_capacity_choices = [
 ]
 
 agent_choices = [
-    ('', '-----------'),
+    ('', ''),
 	('london_borough','London borough'),
 	('housing_provider','Housing provider')
 ]
 
 boolean_choices = [
+    ('', ''),
     ('yes','Yes'),
     ('no','No')
 ]
@@ -120,6 +121,8 @@ class CalculatorForm(forms.Form):
     capacity_per_bin = forms.IntegerField(label='Recycling capacity per bin',widget=forms.Select(choices=bin_capacity_choices))
     preFRP_collections_per_week = forms.FloatField(label='Pre-FRP frequency of recycling collections/week',min_value=0)
     FRP_collections_per_week = forms.FloatField(label='FRP frequency of recycling collections/week',min_value=0)
+    preFRP_waste_collections_per_week = forms.FloatField(label='Pre-FRP frequency of residual waste collections/week',min_value=0)
+    FRP_waste_collections_per_week = forms.FloatField(label='FRP frequency of residual waste collections/week',min_value=0)
     material_collections = forms.IntegerField(label='Material collections',min_value=1)
     preFRP_recycling_bins_per_binstore = forms.IntegerField(label='Recycling bins per bin area (pre-FRP)',min_value=0)
     residual_waste_disposal_method = forms.CharField(label='Residual waste disposal method', widget=forms.Select(choices=residual_waste_disposal_choices))
@@ -136,8 +139,8 @@ class CalculatorForm(forms.Form):
     additional_collections_agent = forms.CharField(label='Additional recycling waste collections', widget=forms.Select(choices=agent_choices))
 
     # Optional assumptions
-    preFRP_dry_recycling_volume = forms.IntegerField(label='Dry recycling tonnage (pre-FRP)',required=False,help_text='Enter a value in tonnes',min_value=0)
-    preFRP_waste_volume = forms.IntegerField(label='Total household waste tonnage (pre-FRP)',required=False,help_text='Include both recycling and residual waste',min_value=0)
+    preFRP_dry_recycling_volume = forms.IntegerField(label='Dry recycling tonnage (pre-FRP)',required=False,min_value=0)
+    preFRP_waste_volume = forms.IntegerField(label='Total household waste tonnage (pre-FRP)',required=False,min_value=0)
     residual_waste_disposal_costs = forms.IntegerField(label='Borough residual waste disposal costs',required=False,min_value=0)
     recycling_waste_disposal_costs = forms.IntegerField(label='Borough recycling treatment costs',required=False,min_value=0)
     contamination_waste_disposal_costs = forms.IntegerField(label='Cost of contamination',required=False,min_value=0)
@@ -217,6 +220,15 @@ class CalculatorForm(forms.Form):
                 ),
                 Column(
                     Field('FRP_collections_per_week', template="FRP_collections_per_week.html")
+                    ),
+                css_class='form-row'
+            ),
+            Row(
+                Column(
+                    Field('preFRP_waste_collections_per_week', template="preFRP_waste_collections_per_week.html"),
+                ),
+                Column(
+                    Field('FRP_waste_collections_per_week', template="FRP_waste_collections_per_week.html")
                     ),
                 css_class='form-row'
             ),
@@ -314,6 +326,8 @@ class DownloadForm(forms.Form):
     material_collections = forms.IntegerField(widget=forms.HiddenInput)
     preFRP_recycling_bins_per_binstore = forms.IntegerField(widget=forms.HiddenInput)
     residual_waste_disposal_method = forms.CharField(widget=forms.HiddenInput)
+    preFRP_waste_collections_per_week = forms.FloatField(widget=forms.HiddenInput)
+    FRP_waste_collections_per_week = forms.FloatField(widget=forms.HiddenInput)
 
     # Cost allocations
     bin_purchase_maintenance_agent = forms.CharField(widget=forms.HiddenInput)

@@ -5,7 +5,7 @@
             {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
         </label>
     {% endif %}
-    <i class="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="top" title="Specify the cost of contamination per tonne. This should include the disposal costs (including any gate fees/applicable taxes) as well as any additional collection costs incurred if known. For assistance in estimating the cost of contamination, please refer to the <a href='https://resourcelondon.org/resources/toolkits/cost-contamination-toolkit/'>Cost of Contamination Toolkit</a> on the Resource London website."></i>
+    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-html="true" data-placement="top" title="Specify the cost of contamination per tonne. This should include the disposal costs (including any gate fees/applicable taxes) as well as any additional collection costs incurred if known. For assistance in estimating the cost of contamination, please refer to the <a href='https://resourcelondon.org/resources/toolkits/cost-contamination-toolkit/'>Cost of Contamination Toolkit</a> on the Resource London website."></a>
     <div class="controls {{ field_class }}">
         {% crispy_field field %}
         {% include 'bootstrap3/layout/help_text_and_errors.html' %}

@@ -5,7 +5,7 @@
             {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
         </label>
     {% endif %}
-    <i class="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="top" title="Specify the organisation incurring the costs of monthly officer inspections."></i>
+    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-html="true" data-placement="top" title="Specify the organisation incurring the costs of monthly officer inspections."></a>
     <div class="controls {{ field_class }}">
         {% crispy_field field %}
         {% include 'bootstrap3/layout/help_text_and_errors.html' %}

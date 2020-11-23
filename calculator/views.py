@@ -35,7 +35,7 @@ sent_to_landfill_share = 6.9/(6.9+59.3)
 sent_to_efw_share = 59.3/(6.9+59.3)
 
 residual_waste_disposal = {
- 	'mixed':{'emissions_intensity':407,'cost':130},
+ 	'mixed':{'emissions_intensity':407,'cost':176*6.9/(6.9+59.3)+125*59.3/(6.9+59.3)},
 	'landfill':{'emissions_intensity':586,'cost':175},
 	'efw':{'emissions_intensity':386,'cost':125}
 }
@@ -52,13 +52,12 @@ recycling_bin_sticker_manufacture = 6.5
 recycling_bin_sticker_design = 60
 recycling_bin_aperture_sticker_manufacture = 3
 recycling_bin_aperture_sticker_design = 20
-recycling_binstore_sign_post = 100
+recycling_binstore_sign_post = 75
 recycling_binstore_sign_wall = 50
-recycling_binstore_sign_design = 105
+recycling_binstore_sign_design = 60
 rubbish_bin_sticker_manufacture = 5
 rubbish_bin_sticker_design = 60
-rubbish_binstore_sign_post = 105
-rubbish_binstore_sign_wall = 55
+rubbish_binstore_sign_post = 75
 rubbish_binstore_sign_design = 60
 chute_sign_manufacture = 3.5
 chute_sign_design = 20
@@ -69,6 +68,7 @@ annual_leaflet_design = 250
 daily_salary = 25000/220
 rubbish_collection_cost = 16.26
 recycling_collection_cost = 16.26
+installation_cost = 500
 
 scenario_costs = {
 		'high':{
@@ -77,7 +77,7 @@ scenario_costs = {
 		        'bin_rental':{240:100*240/1100,360:100*360/1100,660:100*660/1100.2,1100:100,1280:100*1280/1100},
 		        'reverse_lid':20,
 		        'aperture':16,
-		        'bin_cleaning':13.9,
+		        'bin_cleaning':11.7*(1+0.138+0.05),
 		        'painting':500,
 		        'lighting':237.625,
 		        'initial_deepclean':75.25,
@@ -96,9 +96,9 @@ scenario_costs = {
 		        'bin_rental':{240:100*240/1100,360:100*360/1100,660:100*660/1100.2,1100:100,1280:100*1280/1100},
 		        'reverse_lid':20,
 		        'aperture':16,
-		        'bin_cleaning':13.9,
-		        'painting':400,
-		        'lighting':180,
+		        'bin_cleaning':11.7*(1+0.138+0.05),
+		        'painting':300,
+		        'lighting':100,
 		        'initial_deepclean':56,
 		        'site_assessment':0.625,
 		        'stakeholder_engagement':0.625,
@@ -115,9 +115,9 @@ scenario_costs = {
 		        'bin_rental':{240:100*240/1100,360:100*360/1100,660:100*660/1100.2,1100:100,1280:100*1280/1100},
 		        'reverse_lid':20,
 		        'aperture':16,
-		        'bin_cleaning':13.9,
-		        'painting':300,
-		        'lighting':121.5,
+		        'bin_cleaning':11.7*(1+0.138+0.05),
+		        'painting':0,
+		        'lighting':0,
 		        'initial_deepclean':37.625,
 		        'site_assessment':0.5,
 		        'stakeholder_engagement':0.5,
@@ -134,9 +134,9 @@ scenario_costs = {
 		        'bin_rental':{240:100*240/1100,360:100*360/1100,660:100*660/1100.2,1100:100,1280:100*1280/1100},
 		        'reverse_lid':20,
 		        'aperture':16,
-		        'bin_cleaning':13.9,
-		        'painting':500,
-		        'lighting':237.625,
+		        'bin_cleaning':11.7*(1+0.138+0.05),
+		        'painting':0,
+		        'lighting':0,
 		        'initial_deepclean':75.25,
 		        'site_assessment':0.375,
 		        'stakeholder_engagement':0.375,
@@ -153,7 +153,7 @@ scenario_costs = {
 		        'bin_rental':{240:100*240/1100,360:100*360/1100,660:100*660/1100.2,1100:100,1280:100*1280/1100},
 		        'reverse_lid':20,
 		        'aperture':10,
-		        'bin_cleaning':13.9,
+		        'bin_cleaning':11.7*(1+0.138+0.05),
 		        'painting':0,
 		        'lighting':0,
 		        'initial_deepclean':0,
@@ -205,7 +205,6 @@ def register(request):
 
     return render(request, 'register.html', {'form': f})
 
-@csrf_exempt 
 def calculatorform(request):
 	#if form is submitted
 	if request.method == 'POST':
@@ -230,6 +229,8 @@ def calculatorform(request):
 			capacity_per_bin = form.cleaned_data['capacity_per_bin']
 			preFRP_collections_per_week = form.cleaned_data['preFRP_collections_per_week']
 			FRP_collections_per_week = form.cleaned_data['FRP_collections_per_week']
+			preFRP_waste_collections_per_week = form.cleaned_data['preFRP_waste_collections_per_week']
+			FRP_waste_collections_per_week = form.cleaned_data['FRP_waste_collections_per_week']
 			material_collections = form.cleaned_data['material_collections']
 			preFRP_recycling_bins_per_binstore = form.cleaned_data['preFRP_recycling_bins_per_binstore']
 			residual_waste_disposal_method = form.cleaned_data['residual_waste_disposal_method']
@@ -298,13 +299,16 @@ def calculatorform(request):
 			user_initial_deepclean = scenario_costs[form.cleaned_data['setup_cost_scenario']]['initial_deepclean']
 
         	# Council costs set-up (project management)
-			total_project_mgt_cost = form.cleaned_data['number_of_estates'] * daily_salary * (
-                scenario_costs[form.cleaned_data['setup_cost_scenario']]['site_assessment'] +
-                scenario_costs[form.cleaned_data['setup_cost_scenario']]['stakeholder_engagement'] +
-                scenario_costs[form.cleaned_data['setup_cost_scenario']]['improvement_plan'] +
-                scenario_costs[form.cleaned_data['setup_cost_scenario']]['implementation_plan'] +
-                scenario_costs[form.cleaned_data['setup_cost_scenario']]['delivery_preparation'] +
-                scenario_costs[form.cleaned_data['setup_cost_scenario']]['FRP_rollout'] + scenario_costs[form.cleaned_data['setup_cost_scenario']]['installation'])
+			total_project_mgt_cost = form.cleaned_data['number_of_estates'] * (
+				scenario_costs[form.cleaned_data['setup_cost_scenario']]['installation'] * installation_cost + daily_salary * (
+			        scenario_costs[form.cleaned_data['setup_cost_scenario']]['site_assessment'] +
+			        scenario_costs[form.cleaned_data['setup_cost_scenario']]['stakeholder_engagement'] +
+			        scenario_costs[form.cleaned_data['setup_cost_scenario']]['improvement_plan'] +
+			        scenario_costs[form.cleaned_data['setup_cost_scenario']]['implementation_plan'] +
+			        scenario_costs[form.cleaned_data['setup_cost_scenario']]['delivery_preparation'] +
+			        scenario_costs[form.cleaned_data['setup_cost_scenario']]['FRP_rollout']
+				)
+			)
 
 			setup_cost_assignment = {
 				'total_setup_recycling_bin':{
@@ -314,10 +318,6 @@ def calculatorform(request):
 				'total_setup_reverse_lid':{
 					'agent':form.cleaned_data['bin_purchase_maintenance_agent'],
 					'value': user_reverse_lid * total_recycling_bins
-				},
-				'total_setup_aperture':{
-					'agent':form.cleaned_data['bin_purchase_maintenance_agent'],
-					'value':user_aperture * total_recycling_bins
 				},
 				'total_setup_painting':{
 					'agent':form.cleaned_data['binstore_refurb_agent'],
@@ -339,17 +339,9 @@ def calculatorform(request):
 					'agent':form.cleaned_data['stickers_posters_signage_agent'],
 					'value':recycling_binstore_sign_post * total_binstores
 				},
-				'total_setup_recycling_binstore_sign_wall':{
-					'agent':form.cleaned_data['stickers_posters_signage_agent'],
-					'value':recycling_binstore_sign_wall * total_binstores
-				},
 				'total_setup_rubbish_binstore_sign_post':{
 					'agent':form.cleaned_data['stickers_posters_signage_agent'],
 					'value':rubbish_binstore_sign_post * total_binstores
-				},
-				'total_setup_rubbish_binstore_sign_wall':{
-					'agent':form.cleaned_data['stickers_posters_signage_agent'],
-					'value':rubbish_binstore_sign_wall * total_binstores
 				},
 				'total_setup_block_costs':{
 					'agent':form.cleaned_data['stickers_posters_signage_agent'],
@@ -396,7 +388,7 @@ def calculatorform(request):
 					'year':1
 				},
 				'total_additional_recycling_collection':{
-					'agent':form.cleaned_data['stickers_posters_signage_agent'],
+					'agent':form.cleaned_data['additional_collections_agent'],
 					'value':total_households * (form.cleaned_data['FRP_collections_per_week'] - form.cleaned_data['preFRP_collections_per_week']) * recycling_collection_cost,
 					'year':1
 				},
@@ -437,8 +429,8 @@ def calculatorform(request):
 			year5_total_ongoing_costs_london_borough = sum(d['value'] for d in ongoing_cost_assignment.values() if (d['agent'] == 'london_borough' and d['year'] == 5)) + year1_total_ongoing_costs_london_borough
 			year5_total_ongoing_costs_housing_provider = sum(d['value'] for d in ongoing_cost_assignment.values() if (d['agent'] == 'housing_provider' and d['year'] == 5)) + year1_total_ongoing_costs_housing_provider
 
-			year0_total_ongoing_costs_london_borough = year5_total_ongoing_costs_london_borough - ongoing_cost_assignment['total_bin_rental_costs_borough']['value']
-			year0_total_ongoing_costs_housing_provider = year5_total_ongoing_costs_housing_provider - ongoing_cost_assignment['total_bin_rental_costs_housing_provider']['value']
+			year0_total_ongoing_costs_london_borough = year1_total_ongoing_costs_london_borough - ongoing_cost_assignment['total_bin_rental_costs_borough']['value']
+			year0_total_ongoing_costs_housing_provider = year1_total_ongoing_costs_housing_provider - ongoing_cost_assignment['total_bin_rental_costs_housing_provider']['value']
 			year1_total_ongoing_costs = year1_total_ongoing_costs_london_borough + year1_total_ongoing_costs_housing_provider
 			year5_total_ongoing_costs = year5_total_ongoing_costs_london_borough + year5_total_ongoing_costs_housing_provider
 
@@ -455,7 +447,7 @@ def calculatorform(request):
 
 			additional_waste_disposal_cost = total_households * ((borough_residual_waste_disposal_costs - mdf_disposal_fee) * recyclable_waste_uplift_parameter * borough_data['Flats (t/hh)'][form.cleaned_data['borough']] + (contamination_cost - mdf_disposal_fee) * contamination_reduction_parameter * borough_data['Flats (t/hh)'][form.cleaned_data['borough']])
 
-			reduced_residual_waste_collection_costs = (form.cleaned_data['preFRP_collections_per_week'] - form.cleaned_data['FRP_collections_per_week'])*rubbish_collection_cost*total_households
+			reduced_residual_waste_collection_costs = (form.cleaned_data['preFRP_waste_collections_per_week'] - form.cleaned_data['FRP_waste_collections_per_week'])*rubbish_collection_cost*total_households
 
 			cost_diverted_food_drink_cans = (FRP_avoided_residual_waste + FRP_avoided_contaminated_material) * waste['food_drink_cans']['share'] * waste['food_drink_cans']['price']
 			cost_diverted_glass = (FRP_avoided_residual_waste + FRP_avoided_contaminated_material) * waste['glass']['share'] * waste['glass']['price']
@@ -479,15 +471,15 @@ def calculatorform(request):
 			else:
 				total_cost_diverted_material_adjustment = 0
 
-			year0_netbenefit_london_borough = -total_borough_setup_costs - year0_total_ongoing_costs_london_borough + additional_waste_disposal_cost + total_cost_diverted_material * total_cost_diverted_material_adjustment
+			year0_netbenefit_london_borough = -total_borough_setup_costs - year0_total_ongoing_costs_london_borough + additional_waste_disposal_cost + reduced_residual_waste_collection_costs + total_cost_diverted_material * total_cost_diverted_material_adjustment
 			year0_netbenefit_housing_provider = -total_housing_provider_setup_costs - year0_total_ongoing_costs_housing_provider
 			year0_social_benefit = year0_netbenefit_london_borough + year0_netbenefit_housing_provider + total_cost_diverted_material + scc_diverted + value_improvement_resident_total
 
-			year1_netbenefit_london_borough = -year1_total_ongoing_costs_london_borough + additional_waste_disposal_cost + total_cost_diverted_material * total_cost_diverted_material_adjustment
+			year1_netbenefit_london_borough = -year1_total_ongoing_costs_london_borough + additional_waste_disposal_cost + reduced_residual_waste_collection_costs + total_cost_diverted_material * total_cost_diverted_material_adjustment
 			year1_netbenefit_housing_provider = -year1_total_ongoing_costs_housing_provider
 			year1_social_benefit = year1_netbenefit_london_borough + year1_netbenefit_housing_provider + total_cost_diverted_material + scc_diverted + value_improvement_resident_total
 
-			year5_netbenefit_london_borough = -year5_total_ongoing_costs_london_borough + additional_waste_disposal_cost + total_cost_diverted_material * total_cost_diverted_material_adjustment
+			year5_netbenefit_london_borough = -year5_total_ongoing_costs_london_borough + additional_waste_disposal_cost + reduced_residual_waste_collection_costs + total_cost_diverted_material * total_cost_diverted_material_adjustment
 			year5_netbenefit_housing_provider = -year5_total_ongoing_costs_housing_provider
 			year5_social_benefit = year5_netbenefit_london_borough + year5_netbenefit_housing_provider + total_cost_diverted_material + scc_diverted + value_improvement_resident_total
 
@@ -527,6 +519,8 @@ def calculatorform(request):
 				'capacity_per_bin':capacity_per_bin,
 				'preFRP_collections_per_week':preFRP_collections_per_week,
 				'FRP_collections_per_week':FRP_collections_per_week,
+				'preFRP_waste_collections_per_week':preFRP_waste_collections_per_week,
+				'FRP_waste_collections_per_week':FRP_waste_collections_per_week,
 				'material_collections':material_collections,
 				'preFRP_recycling_bins_per_binstore':preFRP_recycling_bins_per_binstore,
 				'residual_waste_disposal_method':residual_waste_disposal_method,
@@ -614,8 +608,8 @@ def download_data(request):
 	    error = 'Your request has some problems.'
 	    contracts = error
 
-	borough = form.cleaned_data.get('borough')
-	user_type = form.cleaned_data.get('user_type')
+	borough = form.cleaned_data['borough']
+	user_type = form.cleaned_data['user_type']
 	number_of_estates = form.cleaned_data['number_of_estates']
 	households_per_estate = form.cleaned_data['households_per_estate']
 	setup_cost_scenario = form.cleaned_data['setup_cost_scenario']
@@ -631,6 +625,8 @@ def download_data(request):
 	capacity_per_bin = form.cleaned_data['capacity_per_bin']
 	preFRP_collections_per_week = form.cleaned_data['preFRP_collections_per_week']
 	FRP_collections_per_week = form.cleaned_data['FRP_collections_per_week']
+	preFRP_waste_collections_per_week = form.cleaned_data['preFRP_waste_collections_per_week']
+	FRP_waste_collections_per_week = form.cleaned_data['FRP_waste_collections_per_week']
 	material_collections = form.cleaned_data['material_collections']
 	preFRP_recycling_bins_per_binstore = form.cleaned_data['preFRP_recycling_bins_per_binstore']
 	residual_waste_disposal_method = form.cleaned_data['residual_waste_disposal_method']
@@ -699,13 +695,16 @@ def download_data(request):
 	user_initial_deepclean = scenario_costs[form.cleaned_data['setup_cost_scenario']]['initial_deepclean']
 
 	# Council costs set-up (project management)
-	total_project_mgt_cost = form.cleaned_data['number_of_estates'] * daily_salary * (
-        scenario_costs[form.cleaned_data['setup_cost_scenario']]['site_assessment'] +
-        scenario_costs[form.cleaned_data['setup_cost_scenario']]['stakeholder_engagement'] +
-        scenario_costs[form.cleaned_data['setup_cost_scenario']]['improvement_plan'] +
-        scenario_costs[form.cleaned_data['setup_cost_scenario']]['implementation_plan'] +
-        scenario_costs[form.cleaned_data['setup_cost_scenario']]['delivery_preparation'] +
-        scenario_costs[form.cleaned_data['setup_cost_scenario']]['FRP_rollout'] + scenario_costs[form.cleaned_data['setup_cost_scenario']]['installation'])
+	total_project_mgt_cost = form.cleaned_data['number_of_estates'] * (
+		scenario_costs[form.cleaned_data['setup_cost_scenario']]['installation'] * installation_cost + daily_salary * (
+	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['site_assessment'] +
+	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['stakeholder_engagement'] +
+	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['improvement_plan'] +
+	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['implementation_plan'] +
+	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['delivery_preparation'] +
+	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['FRP_rollout']
+		)
+	)
 
 	setup_cost_assignment = {
 		'total_setup_recycling_bin':{
@@ -715,10 +714,6 @@ def download_data(request):
 		'total_setup_reverse_lid':{
 			'agent':form.cleaned_data['bin_purchase_maintenance_agent'],
 			'value': user_reverse_lid * total_recycling_bins
-		},
-		'total_setup_aperture':{
-			'agent':form.cleaned_data['bin_purchase_maintenance_agent'],
-			'value':user_aperture * total_recycling_bins
 		},
 		'total_setup_painting':{
 			'agent':form.cleaned_data['binstore_refurb_agent'],
@@ -740,17 +735,9 @@ def download_data(request):
 			'agent':form.cleaned_data['stickers_posters_signage_agent'],
 			'value':recycling_binstore_sign_post * total_binstores
 		},
-		'total_setup_recycling_binstore_sign_wall':{
-			'agent':form.cleaned_data['stickers_posters_signage_agent'],
-			'value':recycling_binstore_sign_wall * total_binstores
-		},
 		'total_setup_rubbish_binstore_sign_post':{
 			'agent':form.cleaned_data['stickers_posters_signage_agent'],
 			'value':rubbish_binstore_sign_post * total_binstores
-		},
-		'total_setup_rubbish_binstore_sign_wall':{
-			'agent':form.cleaned_data['stickers_posters_signage_agent'],
-			'value':rubbish_binstore_sign_wall * total_binstores
 		},
 		'total_setup_block_costs':{
 			'agent':form.cleaned_data['stickers_posters_signage_agent'],
@@ -797,7 +784,7 @@ def download_data(request):
 			'year':1
 		},
 		'total_additional_recycling_collection':{
-			'agent':form.cleaned_data['stickers_posters_signage_agent'],
+			'agent':form.cleaned_data['additional_collections_agent'],
 			'value':total_households * (form.cleaned_data['FRP_collections_per_week'] - form.cleaned_data['preFRP_collections_per_week']) * recycling_collection_cost,
 			'year':1
 		},
@@ -856,7 +843,7 @@ def download_data(request):
 
 	additional_waste_disposal_cost = total_households * ((borough_residual_waste_disposal_costs - mdf_disposal_fee) * recyclable_waste_uplift_parameter * borough_data['Flats (t/hh)'][form.cleaned_data['borough']] + (contamination_cost - mdf_disposal_fee) * contamination_reduction_parameter * borough_data['Flats (t/hh)'][form.cleaned_data['borough']])
 
-	reduced_residual_waste_collection_costs = (form.cleaned_data['preFRP_collections_per_week'] - form.cleaned_data['FRP_collections_per_week'])*rubbish_collection_cost*total_households
+	reduced_residual_waste_collection_costs = (form.cleaned_data['preFRP_waste_collections_per_week'] - form.cleaned_data['FRP_waste_collections_per_week'])*rubbish_collection_cost*total_households
 
 	cost_diverted_food_drink_cans = (FRP_avoided_residual_waste + FRP_avoided_contaminated_material) * waste['food_drink_cans']['share'] * waste['food_drink_cans']['price']
 	cost_diverted_glass = (FRP_avoided_residual_waste + FRP_avoided_contaminated_material) * waste['glass']['share'] * waste['glass']['price']
@@ -917,6 +904,18 @@ def download_data(request):
 	pct = workbook.add_format({'num_format': '0.0%'})
 	money = workbook.add_format({'num_format': '£0'})
 	bold = workbook.add_format({'bold': True})
+	bold_and_underline = workbook.add_format({'bold': True, 'underline': True})
+	align_right = workbook.add_format({'align': 'right'})
+	bold_align_right = workbook.add_format({'bold': True, 'align': 'right'})
+
+	def agent_alias(value):
+		if value == 'london_borough':
+			return 'London borough'
+		elif value == 'housing_provider':
+			return 'Housing provider'
+		elif value == 'yes':
+			return 'Yes'
+		return value
 
 	# Inputs table
 	worksheet_inputs = workbook.add_worksheet('Inputs')
@@ -925,7 +924,7 @@ def download_data(request):
 
 	detailed_inputs = (
 	    ['Borough',borough],
-		['User Type',user_type],
+		['User type', agent_alias(user_type)],
 		['Setup cost scenario',setup_cost_scenario],
 		['Ongoing cost scenario',ongoing_cost_scenario],
 		['Waste volume diverted from residual to recycling scenario',diverted_waste_benefit_scenario],
@@ -947,27 +946,28 @@ def download_data(request):
 		['Borough residual waste disposal costs',residual_waste_disposal_costs],
 		['Borough recycling treatment costs',recycling_waste_disposal_costs],
 		['Cost of contamination',contamination_waste_disposal_costs],
-		['New bin purchase/maintenance',bin_purchase_maintenance_agent],
-		['Recycling bin rental to housing provider?',bin_rental_housing_provider],
-		['Bin area refurbishment',binstore_refurb_agent],
-		['Stickers, posters, signage, leaflet (product)',stickers_posters_signage_agent],
-		['Stickers, posters, signage, leaflet (design)',stickers_posters_signage_design_agent],
-		['Project management',project_management_agent],
-		['Regular cleaning', cleaning_agent],
-		['Monthly officer inspections',inspections_agent],
-		['Additional recycling waste collections',additional_collections_agent]
+		['New bin purchase/maintenance',agent_alias(bin_purchase_maintenance_agent)],
+		['Recycling bin rental to housing provider?',agent_alias(bin_rental_housing_provider)],
+		['Bin area refurbishment',agent_alias(binstore_refurb_agent)],
+		['Stickers, posters, signage, leaflet (product)',agent_alias(stickers_posters_signage_agent)],
+		['Stickers, posters, signage, leaflet (design)',agent_alias(stickers_posters_signage_design_agent)],
+		['Project management',agent_alias(project_management_agent)],
+		['Regular cleaning',agent_alias(cleaning_agent)],
+		['Monthly officer inspections',agent_alias(inspections_agent)],
+		['Additional recycling waste collections',agent_alias(additional_collections_agent)]
 	)
 	row = 1
 	col = 0
 	output_col_width = 10
 	for item, val in (detailed_inputs):
 		worksheet_inputs.write(row, col, item)
-		worksheet_inputs.write(row, col + 1, val)
+		worksheet_inputs.write(row, col + 1, val, align_right)
 		if len(item) > output_col_width:
 			output_col_width = len(item)
 		row += 1
 
 	worksheet_inputs.set_column(0, 0, output_col_width)
+	worksheet_inputs.set_column(1, 1, len(borough))
 
 	# Key Performance Indicators tab
 	worksheet1 = workbook.add_worksheet('Key Performance Indicators')
@@ -985,7 +985,7 @@ def download_data(request):
 
 	row = 1
 	col = 0
-	output_col_width = 10
+	output_col_width = 1
 	for item, cost, definition in (key_performance_indicators_pct):
 		worksheet1.write(row, col,item,pct)
 		worksheet1.write(row, col + 1, cost,pct)
@@ -1063,96 +1063,142 @@ def download_data(request):
 	worksheet_detailed_costs = workbook.add_worksheet('Detailed Costs')
 	worksheet_detailed_costs.write('A1', 'Cost parameter', bold)
 	worksheet_detailed_costs.write('B1', 'Value', bold)
-	worksheet_detailed_costs.write('A2', 'Setup costs', bold)
-	worksheet_detailed_costs.write('A3', 'Per recycling bin', bold)
-	worksheet_detailed_costs.write('A4','Recycling bins'),
-	worksheet_detailed_costs.write('B4',setup_cost_assignment['total_setup_recycling_bin']['value'],money),
-	worksheet_detailed_costs.write('A5','Reverse lid'),
-	worksheet_detailed_costs.write('B5',setup_cost_assignment['total_setup_reverse_lid']['value'],money),
-	worksheet_detailed_costs.write('A6','New paper aperture'),
-	worksheet_detailed_costs.write('B6',setup_cost_assignment['total_setup_aperture']['value'],money),
-	worksheet_detailed_costs.write('A7','Per bin area costs',bold),
-	worksheet_detailed_costs.write('A8','Painting'),
-	worksheet_detailed_costs.write('B8',setup_cost_assignment['total_setup_painting']['value'],money),
-	worksheet_detailed_costs.write('A9','Lighting'),
-	worksheet_detailed_costs.write('B9',setup_cost_assignment['total_setup_lighting']['value'],money),
-	worksheet_detailed_costs.write('A10','Initial deep clean'),
-	worksheet_detailed_costs.write('B10',setup_cost_assignment['total_setup_initial_deepclean']['value'],money),
-	worksheet_detailed_costs.write('A11','Bin store signage'),
-	worksheet_detailed_costs.write('B11',setup_cost_assignment['total_setup_binstore_signage']['value'],money),
-	worksheet_detailed_costs.write('A12','Signage: Bin area on post (recycling)'),
-	worksheet_detailed_costs.write('B12',setup_cost_assignment['total_setup_recycling_binstore_sign_post']['value'],money),
-	worksheet_detailed_costs.write('A13','Signage: Bin area on wall (recycling)'),
-	worksheet_detailed_costs.write('B13',setup_cost_assignment['total_setup_recycling_binstore_sign_wall']['value'],money),
-	worksheet_detailed_costs.write('A14','Signage: Bin area on post (rubbish)'),
-	worksheet_detailed_costs.write('B14',setup_cost_assignment['total_setup_rubbish_binstore_sign_post']['value'],money),
-	worksheet_detailed_costs.write('A15','Signage: Bin area on wall (rubbish)'),
-	worksheet_detailed_costs.write('B15',setup_cost_assignment['total_setup_rubbish_binstore_sign_wall']['value'],money),
-	worksheet_detailed_costs.write('A16','Per block costs',bold),
-	worksheet_detailed_costs.write('A17','Noticeboard A3'),
-	worksheet_detailed_costs.write('B17',total_blocks * noticeboard,money),
-	worksheet_detailed_costs.write('A18','Recycling poster'),
-	worksheet_detailed_costs.write('B18',total_blocks * recycling_poster,money),
-	worksheet_detailed_costs.write('A19','Chute signage'),
-	worksheet_detailed_costs.write('B19',total_blocks * chute_sign_manufacture,money),
-	worksheet_detailed_costs.write('A20','Per council costs'),
-	worksheet_detailed_costs.write('A21','Bin store signage - design (one-off)'),
-	worksheet_detailed_costs.write('B21',signage_design,money),
-	worksheet_detailed_costs.write('A22','Recycling bin sticker - design cost (one-off)'),
-	worksheet_detailed_costs.write('B22',recycling_bin_sticker_design,money),
-	worksheet_detailed_costs.write('A23','Recycling bin aperture sticker - design cost (one-off)'),
-	worksheet_detailed_costs.write('B23',recycling_bin_aperture_sticker_design,money),
-	worksheet_detailed_costs.write('A24','Rubbish bin sticker - design cost (one-off)'),
-	worksheet_detailed_costs.write('B24',rubbish_bin_sticker_design,money),
-	worksheet_detailed_costs.write('A25','Recycling - bin area signage'),
-	worksheet_detailed_costs.write('B25',recycling_binstore_sign_design,money),
-	worksheet_detailed_costs.write('A26','Rubbish - bin area signage'),
-	worksheet_detailed_costs.write('B26',rubbish_binstore_sign_design,money),
-	worksheet_detailed_costs.write('A27','Chute sign - design cost (one-off)'),
-	worksheet_detailed_costs.write('B27',chute_sign_design,money),
-	worksheet_detailed_costs.write('A28','Project management costs',bold),
-	worksheet_detailed_costs.write('A29','Conduct site assessment'),
-	worksheet_detailed_costs.write('B29',form.cleaned_data['number_of_estates'] * daily_salary * scenario_costs[form.cleaned_data['setup_cost_scenario']]['site_assessment'],money),
-	worksheet_detailed_costs.write('A30','Stakeholder engagement'),
-	worksheet_detailed_costs.write('B30',form.cleaned_data['number_of_estates'] * daily_salary * scenario_costs[form.cleaned_data['setup_cost_scenario']]['stakeholder_engagement'],money),
-	worksheet_detailed_costs.write('A31','Produce improvement plan'),
-	worksheet_detailed_costs.write('B31',form.cleaned_data['number_of_estates'] * daily_salary * scenario_costs[form.cleaned_data['setup_cost_scenario']]['improvement_plan'],money),
-	worksheet_detailed_costs.write('A32','Produce implementation plan'),
-	worksheet_detailed_costs.write('B32',form.cleaned_data['number_of_estates'] * daily_salary * scenario_costs[form.cleaned_data['setup_cost_scenario']]['implementation_plan'],money),
-	worksheet_detailed_costs.write('A33','Preparing for delivery (procurement, etc.)'),
-	worksheet_detailed_costs.write('B33',form.cleaned_data['number_of_estates'] * daily_salary * scenario_costs[form.cleaned_data['setup_cost_scenario']]['delivery_preparation'],money),
-	worksheet_detailed_costs.write('A34','Roll out of FRP (officer time to oversee)'),
-	worksheet_detailed_costs.write('B34',form.cleaned_data['number_of_estates'] * daily_salary * scenario_costs[form.cleaned_data['setup_cost_scenario']]['FRP_rollout'],money),
-	worksheet_detailed_costs.write('A35','Installation of FRP measures'),
-	worksheet_detailed_costs.write('B35',form.cleaned_data['number_of_estates'] * daily_salary * scenario_costs[form.cleaned_data['setup_cost_scenario']]['installation'],money),
-	worksheet_detailed_costs.write('A37', 'Ongoing costs', bold)
-	worksheet_detailed_costs.write('A38', 'Per bin area costs', bold)
-	worksheet_detailed_costs.write('A39', 'Regular cleaning of bins, bin rooms and signage'),
-	worksheet_detailed_costs.write('B39', total_binstores * user_cleaning * 52,money),
-	worksheet_detailed_costs.write('A40', 'Monthly visit by officer'),
-	worksheet_detailed_costs.write('B40', total_binstores * scenario_costs[form.cleaned_data['ongoing_cost_scenario']]['officer_visit'] * 12,money),
-	worksheet_detailed_costs.write('A41', 'Per household costs', bold),
-	worksheet_detailed_costs.write('A42', 'Annual leaflet - manufacture'),
-	worksheet_detailed_costs.write('B42', total_households * annual_leaflet_manufacture,money),
-	worksheet_detailed_costs.write('A43', 'Additional recycling collection cost'),
-	worksheet_detailed_costs.write('B43', ongoing_cost_assignment['total_additional_recycling_collection']['value'],money),
-	worksheet_detailed_costs.write('A44', 'Per recycling bin costs', bold),
-	worksheet_detailed_costs.write('A45', 'Bin refurbishment'),
-	worksheet_detailed_costs.write('B45', ongoing_cost_assignment['total_ongoing_refurb_costs']['value'],money),
-	worksheet_detailed_costs.write('A46', 'Bin rental'),
-	worksheet_detailed_costs.write('B46', housing_provider_bin_rental_costs,money),
-	worksheet_detailed_costs.write('A47', 'Recycling bin sticker - manufacture cost'),
-	worksheet_detailed_costs.write('B47', total_recycling_bins * recycling_bin_sticker_manufacture,money),
-	worksheet_detailed_costs.write('A48', 'Recycling bin aperture sticker - manufacture cost'),
-	worksheet_detailed_costs.write('B48', total_recycling_bins * recycling_bin_aperture_sticker_manufacture,money),
-	worksheet_detailed_costs.write('A49', 'Per rubbish bin costs', bold),
-	worksheet_detailed_costs.write('A50', 'Rubbish bin sticker - manufacture cost'),
-	worksheet_detailed_costs.write('B50', rubbish_bin_sticker_manufacture * total_rubbish_bins,money),
-	worksheet_detailed_costs.write('A51', 'Per council costs', bold),
-	worksheet_detailed_costs.write('A52', 'Annual leaflet - design'),
-	worksheet_detailed_costs.write('B52', annual_leaflet_design,money),
-	worksheet_detailed_costs.write('A54', 'Note: Not all ongoing costs are incurred on a yearly basis.'),
+	worksheet_detailed_costs.write('C1', 'Cost incurred by', bold_align_right)
+	worksheet_detailed_costs.write('A3', 'Setup costs (aggregate)', bold_and_underline)
+	worksheet_detailed_costs.write('A5', 'Setup costs - new/refurbished recycling bins', bold)
+	worksheet_detailed_costs.write('B5', '£', align_right)
+	worksheet_detailed_costs.write('A6', ' New/refurbished recycling bins')
+	worksheet_detailed_costs.write('B6', setup_cost_assignment['total_setup_recycling_bin']['value'], money)
+	worksheet_detailed_costs.write('C6', agent_alias(setup_cost_assignment['total_setup_recycling_bin']['agent']), align_right)
+	worksheet_detailed_costs.write('A7', ' Reverse lid')
+	worksheet_detailed_costs.write('B7', setup_cost_assignment['total_setup_reverse_lid']['value'], money)
+	worksheet_detailed_costs.write('C7', agent_alias(setup_cost_assignment['total_setup_reverse_lid']['agent']), align_right)
+	worksheet_detailed_costs.write('A8', 'Setup costs - improvements to bin areas', bold)
+	worksheet_detailed_costs.write('A9', ' Painting of bin areas')
+	worksheet_detailed_costs.write('B9', setup_cost_assignment['total_setup_painting']['value'], money)
+	worksheet_detailed_costs.write('C9', agent_alias(setup_cost_assignment['total_setup_painting']['agent']), align_right)
+	worksheet_detailed_costs.write('A10', ' Lighting for bin areas')
+	worksheet_detailed_costs.write('B10', setup_cost_assignment['total_setup_lighting']['value'], money),
+	worksheet_detailed_costs.write('C10', agent_alias(setup_cost_assignment['total_setup_lighting']['agent']), align_right)
+	worksheet_detailed_costs.write('A11', ' Initial deep clean')
+	worksheet_detailed_costs.write('B11', setup_cost_assignment['total_setup_initial_deepclean']['value'], money)
+	worksheet_detailed_costs.write('C11', agent_alias(setup_cost_assignment['total_setup_initial_deepclean']['agent']), align_right)
+	worksheet_detailed_costs.write('A12', ' Bin store signage')
+	worksheet_detailed_costs.write('B12', setup_cost_assignment['total_setup_binstore_signage']['value'], money)
+	worksheet_detailed_costs.write('C12', agent_alias(setup_cost_assignment['total_setup_binstore_signage']['agent']), align_right)
+	worksheet_detailed_costs.write('A13', ' Mounted signage on wall/post (recycling)')
+	worksheet_detailed_costs.write('B13', setup_cost_assignment['total_setup_recycling_binstore_sign_post']['value'], money)
+	worksheet_detailed_costs.write('C13', agent_alias(setup_cost_assignment['total_setup_recycling_binstore_sign_post']['agent']), align_right)
+	worksheet_detailed_costs.write('A14', ' Mounted signage on wall/post (rubbish)')
+	worksheet_detailed_costs.write('B14', setup_cost_assignment['total_setup_rubbish_binstore_sign_post']['value'], money)
+	worksheet_detailed_costs.write('C14', agent_alias(setup_cost_assignment['total_setup_rubbish_binstore_sign_post']['agent']), align_right)
+
+	worksheet_detailed_costs.write('A15', 'Setup costs - other improvements', bold)
+	worksheet_detailed_costs.write('A16', ' Noticeboard A3')
+	worksheet_detailed_costs.write('B16', total_blocks * noticeboard, money)
+	worksheet_detailed_costs.write('C16', agent_alias(setup_cost_assignment['total_setup_block_costs']['agent']), align_right)
+	worksheet_detailed_costs.write('A17', ' Recycling poster')
+	worksheet_detailed_costs.write('B17', total_blocks * recycling_poster, money)
+	worksheet_detailed_costs.write('C17', agent_alias(setup_cost_assignment['total_setup_block_costs']['agent']), align_right)
+	worksheet_detailed_costs.write('A18', ' Chute signage')
+	worksheet_detailed_costs.write('B18', total_blocks * chute_sign_manufacture ,money)
+	worksheet_detailed_costs.write('C18', agent_alias(setup_cost_assignment['total_setup_block_costs']['agent']), align_right)
+
+	worksheet_detailed_costs.write('A19', 'Setup costs - one-off design of communications', bold)
+	worksheet_detailed_costs.write('A20', ' Bin store signage (design)')
+	worksheet_detailed_costs.write('B20', signage_design, money)
+	worksheet_detailed_costs.write('C20', agent_alias(setup_cost_assignment['total_setup_communications_design']['agent']), align_right)
+	worksheet_detailed_costs.write('A21', ' Recycling bin sticker (design)')
+	worksheet_detailed_costs.write('B21', recycling_bin_sticker_design, money)
+	worksheet_detailed_costs.write('C21', agent_alias(setup_cost_assignment['total_setup_communications_design']['agent']), align_right)
+	worksheet_detailed_costs.write('A22', ' Recycling bin aperture sticker (design)')
+	worksheet_detailed_costs.write('B22', recycling_bin_aperture_sticker_design, money)
+	worksheet_detailed_costs.write('C22', agent_alias(setup_cost_assignment['total_setup_communications_design']['agent']), align_right)
+	worksheet_detailed_costs.write('A23', ' Rubbish bin sticker (design)')
+	worksheet_detailed_costs.write('B23', rubbish_bin_sticker_design, money)
+	worksheet_detailed_costs.write('C23', agent_alias(setup_cost_assignment['total_setup_communications_design']['agent']), align_right)
+	worksheet_detailed_costs.write('A24', ' Mounted signage on wall/post (recycling, design)')
+	worksheet_detailed_costs.write('B24', recycling_binstore_sign_design, money)
+	worksheet_detailed_costs.write('C24', agent_alias(setup_cost_assignment['total_setup_communications_design']['agent']), align_right)
+	worksheet_detailed_costs.write('A25', ' Mounted signage on wall/post (rubbish, design)')
+	worksheet_detailed_costs.write('B25', rubbish_binstore_sign_design, money)
+	worksheet_detailed_costs.write('C25', agent_alias(setup_cost_assignment['total_setup_communications_design']['agent']), align_right)
+	worksheet_detailed_costs.write('A26', ' Chute sign (design)')
+	worksheet_detailed_costs.write('B26', chute_sign_design, money)
+	worksheet_detailed_costs.write('C26', agent_alias(setup_cost_assignment['total_setup_communications_design']['agent']), align_right)
+
+	worksheet_detailed_costs.write('A27', 'Setup costs - initial project management', bold)
+	worksheet_detailed_costs.write('A28', ' Conduct site assessment')
+	worksheet_detailed_costs.write('B28', form.cleaned_data['number_of_estates'] * daily_salary * scenario_costs[form.cleaned_data['setup_cost_scenario']]['site_assessment'], money)
+	worksheet_detailed_costs.write('C28', agent_alias(setup_cost_assignment['total_project_mgt']['agent']), align_right)
+	worksheet_detailed_costs.write('A29', ' Stakeholder engagement')
+	worksheet_detailed_costs.write('B29', form.cleaned_data['number_of_estates'] * daily_salary * scenario_costs[form.cleaned_data['setup_cost_scenario']]['stakeholder_engagement'], money)
+	worksheet_detailed_costs.write('C29', agent_alias(setup_cost_assignment['total_project_mgt']['agent']), align_right)
+	worksheet_detailed_costs.write('A30', ' Produce improvement plan')
+	worksheet_detailed_costs.write('B30',form.cleaned_data['number_of_estates'] * daily_salary * scenario_costs[form.cleaned_data['setup_cost_scenario']]['improvement_plan'], money)
+	worksheet_detailed_costs.write('C30', agent_alias(setup_cost_assignment['total_project_mgt']['agent']), align_right)
+	worksheet_detailed_costs.write('A31', ' Produce implementation plan')
+	worksheet_detailed_costs.write('B31', form.cleaned_data['number_of_estates'] * daily_salary * scenario_costs[form.cleaned_data['setup_cost_scenario']]['implementation_plan'], money)
+	worksheet_detailed_costs.write('C31', agent_alias(setup_cost_assignment['total_project_mgt']['agent']), align_right)
+	worksheet_detailed_costs.write('A32', ' Preparing for delivery (procurement, etc.)')
+	worksheet_detailed_costs.write('B32', form.cleaned_data['number_of_estates'] * daily_salary * scenario_costs[form.cleaned_data['setup_cost_scenario']]['delivery_preparation'], money)
+	worksheet_detailed_costs.write('C32', agent_alias(setup_cost_assignment['total_project_mgt']['agent']), align_right)
+	worksheet_detailed_costs.write('A33', ' Rollout of FRP (officer time to oversee)')
+	worksheet_detailed_costs.write('B33', form.cleaned_data['number_of_estates'] * daily_salary * scenario_costs[form.cleaned_data['setup_cost_scenario']]['FRP_rollout'], money)
+	worksheet_detailed_costs.write('C33', agent_alias(setup_cost_assignment['total_project_mgt']['agent']), align_right)
+	worksheet_detailed_costs.write('A34', ' Installation of FRP measures')
+	worksheet_detailed_costs.write('B34', form.cleaned_data['number_of_estates'] * installation_cost * scenario_costs[form.cleaned_data['setup_cost_scenario']]['installation'], money)
+	worksheet_detailed_costs.write('C34', agent_alias(setup_cost_assignment['total_project_mgt']['agent']), align_right)
+
+	worksheet_detailed_costs.write('A36', 'Ongoing costs (costs per annum unless stated)', bold_and_underline)
+	worksheet_detailed_costs.write('A38', 'Ongoing costs - maintenance of bin areas', bold)
+	worksheet_detailed_costs.write('A39', ' Weekly cleaning of bins, bin rooms and signage')
+	worksheet_detailed_costs.write('B39', total_binstores * user_cleaning * 52, money)
+	worksheet_detailed_costs.write('C39', agent_alias(ongoing_cost_assignment['total_ongoing_cleaning_costs']['agent']), align_right)
+	worksheet_detailed_costs.write('A40', ' Monthly visit by officer')
+	worksheet_detailed_costs.write('B40', total_binstores * scenario_costs[form.cleaned_data['ongoing_cost_scenario']]['officer_visit'] * 12, money)
+	worksheet_detailed_costs.write('C40', agent_alias(ongoing_cost_assignment['total_ongoing_cleaning_costs']['agent']), align_right)
+	worksheet_detailed_costs.write('A41', ' Additional recycling collection cost')
+	worksheet_detailed_costs.write('B41', ongoing_cost_assignment['total_additional_recycling_collection']['value'], money)
+	worksheet_detailed_costs.write('C41', agent_alias(ongoing_cost_assignment['total_additional_recycling_collection']['agent']), align_right)
+	worksheet_detailed_costs.write('A42', 'Ongoing costs - communications', bold)
+	worksheet_detailed_costs.write('A43', ' Annual leaflet (manufacture)')
+	worksheet_detailed_costs.write('B43', total_households * annual_leaflet_manufacture, money)
+	worksheet_detailed_costs.write('C43', agent_alias(ongoing_cost_assignment['total_ongoing_leaflet_manufacture']['agent']), align_right)
+	worksheet_detailed_costs.write('A44', ' Annual leaflet (design)')
+	worksheet_detailed_costs.write('B44', annual_leaflet_design, money)
+	worksheet_detailed_costs.write('C44', agent_alias(ongoing_cost_assignment['total_annual_leaflet_design']['agent']), align_right)
+	worksheet_detailed_costs.write('A45', ' Recycling bin sticker (manufacture)')
+	worksheet_detailed_costs.write('B45', total_recycling_bins * recycling_bin_sticker_manufacture, money)
+	worksheet_detailed_costs.write('C45', agent_alias(ongoing_cost_assignment['total_ongoing_recycling_bin_sticker_costs']['agent']), align_right)
+	worksheet_detailed_costs.write('A46', ' Recycling bin aperture sticker (manufacture)')
+	worksheet_detailed_costs.write('B46', total_recycling_bins * recycling_bin_aperture_sticker_manufacture, money)
+	worksheet_detailed_costs.write('C46', agent_alias(ongoing_cost_assignment['total_ongoing_recycling_bin_sticker_costs']['agent']), align_right)
+	worksheet_detailed_costs.write('A47', ' Rubbish bin sticker (manufacture)')
+	worksheet_detailed_costs.write('B47', rubbish_bin_sticker_manufacture * total_rubbish_bins, money)
+	worksheet_detailed_costs.write('C47', agent_alias(ongoing_cost_assignment['total_ongoing_rubbish_bin_sticker_costs']['agent']), align_right)
+	worksheet_detailed_costs.write('A48', 'Ongoing costs - recycling bins', bold)
+	worksheet_detailed_costs.write('A49', ' Refurbishment of recycling bins (replacement every five years)')
+	worksheet_detailed_costs.write('B49', ongoing_cost_assignment['total_ongoing_refurb_costs']['value'], money)
+	worksheet_detailed_costs.write('C49', agent_alias(ongoing_cost_assignment['total_ongoing_refurb_costs']['agent']), align_right)
+
+	if bin_rental_housing_provider == "no":
+		housing_provider_bin_rental_costs = 0
+
+	worksheet_detailed_costs.write('A50', ' Bin rental income')
+	worksheet_detailed_costs.write('B50', -housing_provider_bin_rental_costs, money)
+	worksheet_detailed_costs.write('C50', 'London borough', align_right)
+	worksheet_detailed_costs.write('A51', ' Bin rental charge')
+	worksheet_detailed_costs.write('B51', housing_provider_bin_rental_costs, money)
+	worksheet_detailed_costs.write('C51', 'Housing provider', align_right)
+
+	worksheet_detailed_costs.write('A53', 'Note: Not all ongoing costs are incurred on a yearly basis.'),
 	worksheet_detailed_costs.set_column(0, 0, len('Recycling bin aperture sticker - design cost (one-off)'))
+	worksheet_detailed_costs.set_column(2, 2, len('Housing provider'))
+
+	worksheet_detailed_costs.write('C60',scenario_costs[form.cleaned_data['ongoing_cost_scenario']]['bin_rental'][form.cleaned_data['capacity_per_bin']])
+	worksheet_detailed_costs.write('C61', total_binstores)
+	worksheet_detailed_costs.write('C62', form.cleaned_data['recycling_bins_per_binstore'] - form.cleaned_data['preFRP_recycling_bins_per_binstore'])
 
 	# Detailed benefits
 	worksheet3 = workbook.add_worksheet('Detailed Benefits')
