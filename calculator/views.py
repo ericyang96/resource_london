@@ -968,7 +968,7 @@ def download_data(request):
 		row += 1
 
 	worksheet_inputs.set_column(0, 0, output_col_width)
-	worksheet_inputs.set_column(1, 1, len(borough))
+	worksheet_inputs.set_column(1, 1, len('Housing provider'))
 
 	# Key Performance Indicators tab
 	worksheet1 = workbook.add_worksheet('Key Performance Indicators')
