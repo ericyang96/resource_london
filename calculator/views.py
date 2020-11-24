@@ -690,7 +690,7 @@ def download_data(request):
 	user_reverse_lid = scenario_costs[form.cleaned_data['setup_cost_scenario']]['reverse_lid']
 	user_aperture = scenario_costs[form.cleaned_data['setup_cost_scenario']]['aperture']
 
-    # Setup costs per bin store
+	# Setup costs per bin store
 	user_painting = scenario_costs[form.cleaned_data['setup_cost_scenario']]['painting']
 	user_lighting = scenario_costs[form.cleaned_data['setup_cost_scenario']]['lighting']
 	user_initial_deepclean = scenario_costs[form.cleaned_data['setup_cost_scenario']]['initial_deepclean']
@@ -698,12 +698,12 @@ def download_data(request):
 	# Council costs set-up (project management)
 	total_project_mgt_cost = form.cleaned_data['number_of_estates'] * (
 		scenario_costs[form.cleaned_data['setup_cost_scenario']]['installation'] * installation_cost + daily_salary * (
-	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['site_assessment'] +
-	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['stakeholder_engagement'] +
-	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['improvement_plan'] +
-	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['implementation_plan'] +
-	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['delivery_preparation'] +
-	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['FRP_rollout']
+			scenario_costs[form.cleaned_data['setup_cost_scenario']]['site_assessment'] +
+			scenario_costs[form.cleaned_data['setup_cost_scenario']]['stakeholder_engagement'] +
+			scenario_costs[form.cleaned_data['setup_cost_scenario']]['improvement_plan'] +
+			scenario_costs[form.cleaned_data['setup_cost_scenario']]['implementation_plan'] +
+			scenario_costs[form.cleaned_data['setup_cost_scenario']]['delivery_preparation'] +
+			scenario_costs[form.cleaned_data['setup_cost_scenario']]['FRP_rollout']
 		)
 	)
 
@@ -860,7 +860,7 @@ def download_data(request):
 
 	direct_benefit = 52 * wtp_recycling * living_wage * scenario_benefits[form.cleaned_data['diverted_waste_benefit_scenario']]['recyclable_waste_uplift'] * total_households
 	value_improvement_resident_total = value_improvement_resident + direct_benefit
-	total_benefit = value_improvement_resident_total + total_cost_diverted_material + reduced_residual_waste_collection_costs + additional_waste_disposal_cost + scc_diverted
+	total_benefit = value_improvement_resident_total + total_cost_diverted_material + reduced_residual_waste_collection_costs  + additional_waste_disposal_cost + scc_diverted
 
 
 	if form.cleaned_data['material_collections'] > 1:
@@ -868,15 +868,15 @@ def download_data(request):
 	else:
 		total_cost_diverted_material_adjustment = 0
 
-	year0_netbenefit_london_borough = -total_borough_setup_costs - year0_total_ongoing_costs_london_borough + additional_waste_disposal_cost + total_cost_diverted_material * total_cost_diverted_material_adjustment
+	year0_netbenefit_london_borough = -total_borough_setup_costs - year0_total_ongoing_costs_london_borough + additional_waste_disposal_cost + reduced_residual_waste_collection_costs + total_cost_diverted_material * total_cost_diverted_material_adjustment
 	year0_netbenefit_housing_provider = -total_housing_provider_setup_costs - year0_total_ongoing_costs_housing_provider
 	year0_social_benefit = year0_netbenefit_london_borough + year0_netbenefit_housing_provider + total_cost_diverted_material + scc_diverted + value_improvement_resident_total
 
-	year1_netbenefit_london_borough = -year1_total_ongoing_costs_london_borough + additional_waste_disposal_cost + total_cost_diverted_material * total_cost_diverted_material_adjustment
+	year1_netbenefit_london_borough = -year1_total_ongoing_costs_london_borough + additional_waste_disposal_cost + reduced_residual_waste_collection_costs + total_cost_diverted_material * total_cost_diverted_material_adjustment
 	year1_netbenefit_housing_provider = -year1_total_ongoing_costs_housing_provider
 	year1_social_benefit = year1_netbenefit_london_borough + year1_netbenefit_housing_provider + total_cost_diverted_material + scc_diverted + value_improvement_resident_total
 
-	year5_netbenefit_london_borough = -year5_total_ongoing_costs_london_borough + additional_waste_disposal_cost + total_cost_diverted_material * total_cost_diverted_material_adjustment
+	year5_netbenefit_london_borough = -year5_total_ongoing_costs_london_borough + additional_waste_disposal_cost + reduced_residual_waste_collection_costs + total_cost_diverted_material * total_cost_diverted_material_adjustment
 	year5_netbenefit_housing_provider = -year5_total_ongoing_costs_housing_provider
 	year5_social_benefit = year5_netbenefit_london_borough + year5_netbenefit_housing_provider + total_cost_diverted_material + scc_diverted + value_improvement_resident_total
 
