@@ -75,7 +75,7 @@ scenario_costs = {
 		        'new_bins':{240:21.09,360:34,660:254.98,1100:274.52,1280:336.68},
 		        'refurb_bins':{240:21.09,360:34,660:69,1100:69,1280:69},
 		        'bin_rental':{240:100*240/1100,360:100*360/1100,660:100*660/1100.2,1100:100,1280:100*1280/1100},
-		        'reverse_lid':20,
+		        'reverse_lid':{240:0,360:0,660:0,1100:20,1280:20},
 		        'aperture':16,
 		        'bin_cleaning':11.7*(1+0.138+0.05),
 		        'painting':500,
@@ -94,11 +94,11 @@ scenario_costs = {
 		        'new_bins':{240:21.09,360:34,660:254.98,1100:274.52,1280:336.68},
 		        'refurb_bins':{240:21.09,360:34,660:69,1100:69,1280:69},
 		        'bin_rental':{240:100*240/1100,360:100*360/1100,660:100*660/1100.2,1100:100,1280:100*1280/1100},
-		        'reverse_lid':20,
+		        'reverse_lid':{240:0,360:0,660:0,1100:20,1280:20},
 		        'aperture':16,
 		        'bin_cleaning':11.7*(1+0.138+0.05),
 		        'painting':300,
-		        'lighting':100,
+		        'lighting':121.5,
 		        'initial_deepclean':56,
 		        'site_assessment':0.625,
 		        'stakeholder_engagement':0.625,
@@ -113,7 +113,7 @@ scenario_costs = {
 				'new_bins':{240:21.09,360:34,660:254.98,1100:274.52,1280:336.68},
 		        'refurb_bins':{240:21.09,360:34,660:69,1100:69,1280:69},
 		        'bin_rental':{240:100*240/1100,360:100*360/1100,660:100*660/1100.2,1100:100,1280:100*1280/1100},
-		        'reverse_lid':20,
+		        'reverse_lid':{240:0,360:0,660:0,1100:20,1280:20},
 		        'aperture':16,
 		        'bin_cleaning':11.7*(1+0.138+0.05),
 		        'painting':0,
@@ -132,7 +132,7 @@ scenario_costs = {
 		        'new_bins':{240:21.09,360:34,660:69,1100:69,1280:69},
 		        'refurb_bins':{240:21.09,360:34,660:69,1100:69,1280:69},
 		        'bin_rental':{240:100*240/1100,360:100*360/1100,660:100*660/1100.2,1100:100,1280:100*1280/1100},
-		        'reverse_lid':20,
+		        'reverse_lid':{240:0,360:0,660:0,1100:20,1280:20},
 		        'aperture':16,
 		        'bin_cleaning':11.7*(1+0.138+0.05),
 		        'painting':0,
@@ -151,7 +151,7 @@ scenario_costs = {
 				'new_bins':{240:21.09,360:34,660:69,1100:69,1280:69},
 		        'refurb_bins':{240:21.09,360:34,660:69,1100:69,1280:69},
 		        'bin_rental':{240:100*240/1100,360:100*360/1100,660:100*660/1100.2,1100:100,1280:100*1280/1100},
-		        'reverse_lid':20,
+		        'reverse_lid':{240:0,360:0,660:0,1100:20,1280:20},
 		        'aperture':10,
 		        'bin_cleaning':11.7*(1+0.138+0.05),
 		        'painting':0,
@@ -239,7 +239,7 @@ def calculatorform(request):
 			bin_rental_housing_provider = form.cleaned_data['bin_rental_housing_provider']
 			binstore_refurb_agent = form.cleaned_data['binstore_refurb_agent']
 			stickers_posters_signage_agent = form.cleaned_data['stickers_posters_signage_agent']
-			stickers_posters_signage_design_agent = form.cleaned_data['stickers_posters_signage_agent']
+			stickers_posters_signage_design_agent = form.cleaned_data['stickers_posters_signage_design_agent']
 			project_management_agent = form.cleaned_data['project_management_agent']
 			cleaning_agent = form.cleaned_data['cleaning_agent']
 			inspections_agent = form.cleaned_data['inspections_agent']
@@ -291,7 +291,7 @@ def calculatorform(request):
 
 			# Setup costs per recycling bin
 			user_initial_refurb_costs = scenario_costs[form.cleaned_data['setup_cost_scenario']]['new_bins'][form.cleaned_data['capacity_per_bin']]
-			user_reverse_lid = scenario_costs[form.cleaned_data['setup_cost_scenario']]['reverse_lid']
+			user_reverse_lid = scenario_costs[form.cleaned_data['setup_cost_scenario']]['reverse_lid'][form.cleaned_data['capacity_per_bin']]
 			user_aperture = scenario_costs[form.cleaned_data['setup_cost_scenario']]['aperture']
 
 	        # Setup costs per bin store
@@ -529,7 +529,7 @@ def calculatorform(request):
 				'bin_rental_housing_provider':bin_rental_housing_provider,
 				'binstore_refurb_agent':binstore_refurb_agent,
 				'stickers_posters_signage_agent':stickers_posters_signage_agent,
-				'stickers_posters_signage_design_agent':stickers_posters_signage_agent,
+				'stickers_posters_signage_design_agent':stickers_posters_signage_design_agent,
 				'project_management_agent':project_management_agent,
 				'cleaning_agent':cleaning_agent,
 				'inspections_agent':inspections_agent,
@@ -635,7 +635,7 @@ def download_data(request):
 	bin_rental_housing_provider = form.cleaned_data['bin_rental_housing_provider']
 	binstore_refurb_agent = form.cleaned_data['binstore_refurb_agent']
 	stickers_posters_signage_agent = form.cleaned_data['stickers_posters_signage_agent']
-	stickers_posters_signage_design_agent = form.cleaned_data['stickers_posters_signage_agent']
+	stickers_posters_signage_design_agent = form.cleaned_data['stickers_posters_signage_design_agent']
 	project_management_agent = form.cleaned_data['project_management_agent']
 	cleaning_agent = form.cleaned_data['cleaning_agent']
 	inspections_agent = form.cleaned_data['inspections_agent']
@@ -653,7 +653,6 @@ def download_data(request):
 		preFRP_total_waste = borough_data['Household - total waste (tonnes)'][form.cleaned_data['borough']]
 	else:
 		preFRP_total_waste = preFRP_waste_volume
-
 
 	baseline_dry_recyclable_waste = borough_data['Flats (t/hh)'][form.cleaned_data['borough']] * 1000
 
@@ -687,10 +686,10 @@ def download_data(request):
 
 	# Setup costs per recycling bin
 	user_initial_refurb_costs = scenario_costs[form.cleaned_data['setup_cost_scenario']]['new_bins'][form.cleaned_data['capacity_per_bin']]
-	user_reverse_lid = scenario_costs[form.cleaned_data['setup_cost_scenario']]['reverse_lid']
+	user_reverse_lid = scenario_costs[form.cleaned_data['setup_cost_scenario']]['reverse_lid'][form.cleaned_data['capacity_per_bin']]
 	user_aperture = scenario_costs[form.cleaned_data['setup_cost_scenario']]['aperture']
 
-	# Setup costs per bin store
+    # Setup costs per bin store
 	user_painting = scenario_costs[form.cleaned_data['setup_cost_scenario']]['painting']
 	user_lighting = scenario_costs[form.cleaned_data['setup_cost_scenario']]['lighting']
 	user_initial_deepclean = scenario_costs[form.cleaned_data['setup_cost_scenario']]['initial_deepclean']
@@ -698,12 +697,12 @@ def download_data(request):
 	# Council costs set-up (project management)
 	total_project_mgt_cost = form.cleaned_data['number_of_estates'] * (
 		scenario_costs[form.cleaned_data['setup_cost_scenario']]['installation'] * installation_cost + daily_salary * (
-			scenario_costs[form.cleaned_data['setup_cost_scenario']]['site_assessment'] +
-			scenario_costs[form.cleaned_data['setup_cost_scenario']]['stakeholder_engagement'] +
-			scenario_costs[form.cleaned_data['setup_cost_scenario']]['improvement_plan'] +
-			scenario_costs[form.cleaned_data['setup_cost_scenario']]['implementation_plan'] +
-			scenario_costs[form.cleaned_data['setup_cost_scenario']]['delivery_preparation'] +
-			scenario_costs[form.cleaned_data['setup_cost_scenario']]['FRP_rollout']
+	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['site_assessment'] +
+	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['stakeholder_engagement'] +
+	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['improvement_plan'] +
+	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['implementation_plan'] +
+	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['delivery_preparation'] +
+	        scenario_costs[form.cleaned_data['setup_cost_scenario']]['FRP_rollout']
 		)
 	)
 
@@ -939,6 +938,8 @@ def download_data(request):
 		['Recycling capacity per bin',capacity_per_bin],
 		['Pre-FRP frequency of recycling collections per week',preFRP_collections_per_week],
 		['FRP frequency of recycling collections per week',FRP_collections_per_week],
+		['Pre-FRP frequency of residual waste collections per week', preFRP_waste_collections_per_week],
+		['FRP frequency of residual waste collections per week', FRP_waste_collections_per_week],
 		['Material collections',material_collections],
 		['Recycling bins per bin area (pre-FRP)',preFRP_recycling_bins_per_binstore],
 		['Residual waste disposal method',residual_waste_disposal_method],
@@ -977,9 +978,9 @@ def download_data(request):
 	worksheet1.write('C1', 'Output Definition', bold)
 
 	key_performance_indicators_pct = (
-	    ['Pre-intervention household dry recycling rate (%)', round(preFRP_household_dry_recycling_rate, 3),'Estimated dry recycling rate before implementation of the FRP for either the London borough or for the treated estates if volumes user inputted'],
-	  	['Post-intervention household dry recycling rate (%)',round(FRP_household_dry_recycling_rate,3),'Estimated dry recycling rate after implementation of the FRP for either the London borough or for the treated estates if volumes user inputted'],
-	  	['Improvement in dry recycling rate from FRP (percentage points)',round(dry_recycling_uplift,3),'Estimated uplift (in percentage points) in the dry recycling rate as a result of implementing FRP (difference between pre and post-intervention dry recycling rate)'],
+	    ['Pre-intervention household dry recycling rate (%)', round(preFRP_household_dry_recycling_rate, 3),'Estimated dry recycling rate before implementation of the FRP for either the London borough or for the treated estates if volumes are input by users'],
+	  	['Post-intervention household dry recycling rate (%)',round(FRP_household_dry_recycling_rate,3),'Estimated dry recycling rate after implementation of the FRP for either the London borough or for the treated estates if volumes are input by users'],
+	  	['Improvement in dry recycling rate from FRP (percentage points)',round(dry_recycling_uplift,3),'Estimated uplift (in percentage points) in the dry recycling rate as a result of implementing FRP (difference between pre- and post-intervention dry recycling rate)'],
 	  	['Uplift in dry recycled waste volumes in treated flats from FRP (%)',round(recyclable_waste_uplift_parameter,3),'Estimated percentage increase in the volume of household waste sent to dry recycling as a result of implementing the FRP (driven by benefit scenario selected)'],
 		['Reduction in contamination rate of dry recycling in treated flats (percentage points)',round(contamination_reduction_parameter,3),'Estimated percentage point reduction in the contamination rate of household dry recycling volumes as a result of implementing the FRP (driven by benefit scenario selected)'],
 	)
@@ -996,7 +997,7 @@ def download_data(request):
 		row += 1
 
 	key_performance_indicators_numeric = (
-		['CO2 emissions abated (tonnes/year)',round(CO2_abated),'Estimated annual CO2e emissions abated (tonnes/yr) as a result of waste being diverted from final disposal i.e. EFW/Landfill'],
+		['CO2e emissions abated (tonnes/year)',round(CO2_abated),'Estimated annual CO2e emissions abated (tonnes/yr) as a result of waste being diverted from final disposal i.e. EFW/Landfill'],
 		['Dry recycling bin capacity per household in treated flats (litres/hh/pw)',round(dry_recycling_bin_capacity_treated_flats),'FRP includes a recommended minimum dry recycling bin capacity of 60 litres/hh/week. If this output is below then consider increasing the frequency of collections or number of bins'],
 	)
 	for item, cost, definition in (key_performance_indicators_numeric):
@@ -1008,9 +1009,9 @@ def download_data(request):
 		row += 1
 
 	key_performance_indicators_money = (
-		['Additional London borough net benefit per household of FRP (£ average/year)',round(borough_additional_net_benefit_per_householdyear),'Additional London borough net benefit/cost per household of FRP (average annual £ net benefit/cost across 10-year time horizon)'],
-		['Additional housing provider net benefit per household of FRP (£ average/year)',round(housing_provider_additional_net_benefit_per_householdyear),'Additional housing provider net benefit/cost per household of FRP (average annual £ net benefit/cost across 10-year time horizon)'],
-		['Net benefit to society per household from FRP (£/year)',round(society_net_benefit_per_householdyear),'Estimated annual net benefit/(cost) to society per household from implementing the FRP on the treated estates. Societal benefits/costs include not only costs/benefits that accrue directly to Boroughs/Housing providers but also those that accrue to residents and other members of society (e.g. through improved resident experience and reduced carbon emissions)'],
+		['Additional London borough net cost per household from FRP (£ average/year)',round(borough_additional_net_benefit_per_householdyear),'Additional London borough net benefit/(cost) per household from FRP (average annual £ net benefit/cost across 10-year time horizon). Negative values represent a net cost to the borough from implementation of the FRP, while positive values represent a net benefit (benefits outweigh costs).'],
+		['Additional housing provider net cost per household from FRP (£ average/year)',round(housing_provider_additional_net_benefit_per_householdyear),'Additional housing provider net benefit/(cost) per household from FRP (average annual £ net benefit/cost across 10-year time horizon). Negative values represent a net cost to the housing provider from implementation of the FRP, while positive values represent a net benefit (benefits outweigh costs).'],
+		['Net cost to society per household from FRP (£/year)',round(society_net_benefit_per_householdyear),'Estimated annual net benefit/(cost) to society per household from implementing the FRP on the treated estates. Societal benefits/costs include not only costs/benefits that accrue directly to boroughs/housing providers but also those that accrue to residents and other members of society (e.g. through improved resident experience and reduced carbon emissions). Negative values represent a net cost to society from implementation of the FRP, while positive values represent a net benefit (benefits outweigh costs).'],
 	)
 	for item, cost, definition in (key_performance_indicators_money):
 		worksheet1.write(row, col,item)
@@ -1030,18 +1031,18 @@ def download_data(request):
 	worksheet2.write('D1', 'Output definition', bold)
 
 	costs_by_year = (
-	    ['Total setup costs', round(total_borough_setup_costs/100)*100, round(total_housing_provider_setup_costs/100)*100,'Setup costs included one-off costs associated with implementing the FRP in designated estates, including: bringing bin provision up to the specified standard, improvements to bin stores, project management to implement measures, and the initial cost of signage/communications'],
-		['Year 0 ongoing costs',round(year0_total_ongoing_costs_london_borough/100)*100,round(year0_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs included recurring costs associated with implementing the Flats Recycling Package in designated estates, including: additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
-		['Year 1 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs included recurring costs associated with implementing the Flats Recycling Package in designated estates, including: additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
-		['Year 2 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs included recurring costs associated with implementing the Flats Recycling Package in designated estates, including: additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
-		['Year 3 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs included recurring costs associated with implementing the Flats Recycling Package in designated estates, including: additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
-		['Year 4 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs included recurring costs associated with implementing the Flats Recycling Package in designated estates, including: additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
-		['Year 5 ongoing costs',round(year5_total_ongoing_costs_london_borough/100)*100,round(year5_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs included recurring costs associated with implementing the Flats Recycling Package in designated estates, including: additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
-		['Year 6 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs included recurring costs associated with implementing the Flats Recycling Package in designated estates, including: additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
-		['Year 7 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs included recurring costs associated with implementing the Flats Recycling Package in designated estates, including: additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
-		['Year 8 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs included recurring costs associated with implementing the Flats Recycling Package in designated estates, including: additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
-		['Year 9 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs included recurring costs associated with implementing the Flats Recycling Package in designated estates, including: additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
-		['Year 10 ongoing costs',round(year5_total_ongoing_costs_london_borough/100)*100,round(year5_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs included recurring costs associated with implementing the Flats Recycling Package in designated estates, including: additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
+	    ['Total setup costs', round(total_borough_setup_costs/100)*100, round(total_housing_provider_setup_costs/100)*100,'Setup costs include one-off costs associated with implementing the FRP in designated estates, including bringing bin provision up to the specified standard, improvements to bin areas, project management to implement FRP and the initial cost of signage/communications'],
+		['Year 0 ongoing costs',round(year0_total_ongoing_costs_london_borough/100)*100,round(year0_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs include recurring costs associated with implementing the Flats Recycling Package in designated estates, including additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
+		['Year 1 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs include recurring costs associated with implementing the Flats Recycling Package in designated estates, including additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
+		['Year 2 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs include recurring costs associated with implementing the Flats Recycling Package in designated estates, including additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
+		['Year 3 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs include recurring costs associated with implementing the Flats Recycling Package in designated estates, including additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
+		['Year 4 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs include recurring costs associated with implementing the Flats Recycling Package in designated estates, including additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
+		['Year 5 ongoing costs',round(year5_total_ongoing_costs_london_borough/100)*100,round(year5_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs include recurring costs associated with implementing the Flats Recycling Package in designated estates, including additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
+		['Year 6 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs include recurring costs associated with implementing the Flats Recycling Package in designated estates, including additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
+		['Year 7 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs include recurring costs associated with implementing the Flats Recycling Package in designated estates, including additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
+		['Year 8 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs include recurring costs associated with implementing the Flats Recycling Package in designated estates, including additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
+		['Year 9 ongoing costs',round(year1_total_ongoing_costs_london_borough/100)*100,round(year1_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs include recurring costs associated with implementing the Flats Recycling Package in designated estates, including additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
+		['Year 10 ongoing costs',round(year5_total_ongoing_costs_london_borough/100)*100,round(year5_total_ongoing_costs_housing_provider/100)*100,'Ongoing costs include recurring costs associated with implementing the Flats Recycling Package in designated estates, including additional costs of waste collection, regular cleaning of bin areas, monthly inspections, refurbishing bins and replacing signage/communications.'],
 	)
 
 	row = 1
@@ -1197,10 +1198,6 @@ def download_data(request):
 	worksheet_detailed_costs.set_column(0, 0, len('Recycling bin aperture sticker - design cost (one-off)'))
 	worksheet_detailed_costs.set_column(2, 2, len('Housing provider'))
 
-	worksheet_detailed_costs.write('C60',scenario_costs[form.cleaned_data['ongoing_cost_scenario']]['bin_rental'][form.cleaned_data['capacity_per_bin']])
-	worksheet_detailed_costs.write('C61', total_binstores)
-	worksheet_detailed_costs.write('C62', form.cleaned_data['recycling_bins_per_binstore'] - form.cleaned_data['preFRP_recycling_bins_per_binstore'])
-
 	# Detailed benefits
 	worksheet3 = workbook.add_worksheet('Detailed Benefits')
 	worksheet3.write('A1', 'Output', bold)
@@ -1211,7 +1208,7 @@ def download_data(request):
 		['Social cost of carbon diverted',round(scc_diverted/100)*100,'Estimated monetary value of CO2e emissions abated (tonnes/yr) as a result of waste being diverted from alternative waste disposal methods. Emission reductions are valued at a social cost of carbon of £69.30/tonne'],
 		['Cost reduction of waste disposal (reduced gate fees and landfill tax)',round(additional_waste_disposal_cost/100)*100,'Estimated reduction in waste disposal costs (including gate fees, landfill and other taxes) for London boroughs as a result of waste being diverted from alternative methods to recycling'],
 		['Reduced residual waste collection costs',round(reduced_residual_waste_collection_costs/100)*100,'Estimated monetary benefit of reduced residual waste collection frequency following the implementation of the FRP'],
-		['Value of material diverted from landfill/efw/contamination',round(total_cost_diverted_material/100)*100,'Estimated value of additional materials collected through increased recycled waste volumes. This benefit is assumed to accrue to Boroughs if multisource collections are selected'],
+		['Value of material diverted from landfill/efw/contamination',round(total_cost_diverted_material/100)*100,'Estimated value of additional materials collected through increased recycled waste volumes. This benefit is assumed to accrue to boroughs if multisource collections are selected'],
 		['Value of improved resident experience',round(value_improvement_resident_total/100)*100,'Estimated monetary value to residents of improved recycling service and estate cleanliness (improved visual and reduced odours) as a result of implementing the FRP. These results have been calculated using survey evidence from the economic literature concerning the value people place on both improved recycling facilities and improvements to their local environment'],
 		['Total social benefit of FRP',round(total_benefit/100)*100,''],
 	)
@@ -1237,18 +1234,18 @@ def download_data(request):
 	worksheet4.write('D1', 'Society', bold)
 
 	net_costs = (
-	    ['Total net benefit', round(total_netbenefit_london_borough/100)*100, round(total_netbenefit_housing_provider/100)*100, round(total_netbenefit_society/100)*100],
-		['Year 0 net benefit',round(year0_netbenefit_london_borough/100)*100,round(year0_netbenefit_housing_provider/100)*100,round(year0_social_benefit/100)*100],
-		['Year 1 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
-		['Year 2 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
-		['Year 3 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
-		['Year 4 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
-		['Year 5 net benefit',round(year5_netbenefit_london_borough/100)*100,round(year5_netbenefit_housing_provider/100)*100,round(year5_social_benefit/100)*100],
-		['Year 6 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
-		['Year 7 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
-		['Year 8 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
-		['Year 9 net benefit',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
-		['Year 10 net benefit',round(year5_netbenefit_london_borough/100)*100,round(year5_netbenefit_housing_provider/100)*100,round(year5_social_benefit/100)*100],
+	    ['Total net cost', round(total_netbenefit_london_borough/100)*100, round(total_netbenefit_housing_provider/100)*100, round(total_netbenefit_society/100)*100],
+		['Year 0 net cost',round(year0_netbenefit_london_borough/100)*100,round(year0_netbenefit_housing_provider/100)*100,round(year0_social_benefit/100)*100],
+		['Year 1 net cost',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
+		['Year 2 net cost',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
+		['Year 3 net cost',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
+		['Year 4 net cost',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
+		['Year 5 net cost',round(year5_netbenefit_london_borough/100)*100,round(year5_netbenefit_housing_provider/100)*100,round(year5_social_benefit/100)*100],
+		['Year 6 net cost',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
+		['Year 7 net cost',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
+		['Year 8 net cost',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
+		['Year 9 net cost',round(year1_netbenefit_london_borough/100)*100,round(year1_netbenefit_housing_provider/100)*100,round(year1_social_benefit/100)*100],
+		['Year 10 net cost',round(year5_netbenefit_london_borough/100)*100,round(year5_netbenefit_housing_provider/100)*100,round(year5_social_benefit/100)*100],
 	)
 
 	row = 1
@@ -1262,21 +1259,13 @@ def download_data(request):
 		worksheet4.write(row, col + 1, lb, money)
 		worksheet4.write(row, col + 2, hp, money)
 		worksheet4.write(row, col + 3, soc, money)
-		if len(item) > output_col_width:
-			output_col_width = len(item)
-		if len(str(lb)) > lb_col_width:
-			lb_col_width = len(str(lb))
-		if len(str(hp)) > hp_col_width:
-			hp_col_width = len(str(hp))
-		if len(str(soc)) > soc_col_width:
-			soc_col_width = len(str(soc))
 		row += 1
 
-	worksheet4.write(row + 1, col, 'Note: Total net benefit may not equal the sum of the value of the benefit derived in each year due to rounding.')
+	worksheet4.write(row + 1, col, 'Note: Total net benefit may not equal the sum of the value of the benefit derived in each year due to rounding. A negative value indicates a net cost, while a positive value indicates a net benefit.')
 
-	worksheet4.set_column(0, 0, output_col_width)
-	worksheet4.set_column(1, 0, lb_col_width)
-	worksheet4.set_column(2, 0, hp_col_width)
+	worksheet4.set_column(0, 0, len('Year 10 net cost'))
+	worksheet4.set_column(1, 0, len('London borough'))
+	worksheet4.set_column(2, 0, len('Housing provider'))
 	worksheet4.set_column(3, 0, soc_col_width)
 
 	workbook.close()

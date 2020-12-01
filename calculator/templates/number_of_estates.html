@@ -5,8 +5,8 @@
             {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
         </label>
     {% endif %}
-    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-html="true" data-placement="top" title="Estate means a standalone purpose built block or collection of blocks that are part of the same development.
-    The numbers pre-populated below are estimates of an average estate."></a>
+    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-html="true" data-placement="top" title="Estate means a standalone purpose-built block or collection of blocks that are part of the same development.
+    The numbers pre-populated below are estimates for an average estate."></a>
     <div class="controls {{ field_class }}">
         {% crispy_field field %}
         {% include 'bootstrap3/layout/help_text_and_errors.html' %}

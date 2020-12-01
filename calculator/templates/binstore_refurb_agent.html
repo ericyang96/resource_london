@@ -5,7 +5,7 @@
             {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
         </label>
     {% endif %}
-    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Specify the organisation incurring bin area refurbishment costs. Refurbishment costs include the costs of painting, new lighting, and initial deep clean of bin stores."></a>
+    <a class="far fa-question-circle" data-toggle="popover" tabindex="0" data-trigger="focus" data-placement="top" title="Specify the organisation incurring bin area refurbishment costs. Refurbishment costs include the costs of painting, new lighting and initial deep clean of bin stores."></a>
     <div class="controls {{ field_class }}">
         {% crispy_field field %}
         {% include 'bootstrap3/layout/help_text_and_errors.html' %}
